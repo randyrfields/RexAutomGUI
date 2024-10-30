@@ -58,7 +58,12 @@ class MainGUI:
                 x2 += offset
                 y1 += offset
                 y2 += offset
-                self.rect[row,column] = self.canvases[index].create_rectangle(x1,y1,x2,y2, fill="blue", tags="rect")
+                if index == 4:
+                    color = "#90EE90"
+                else:
+                    color = "white"
+
+                self.rect[row,column] = self.canvases[index].create_rectangle(x1,y1,x2,y2, fill=color, tags="rect")
                 self.oval[row,column] = self.canvases[index].create_oval(x1+2,y1+2,x2-2,y2-2, fill="gray", tags="oval")
 
         
