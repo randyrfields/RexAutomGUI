@@ -107,7 +107,7 @@ class MainGUI:
 async def main():
     root = tk.Tk()
     GUI = MainGUI(root)
-    comPort = serialPolling()
+    comPort = serialPolling('/dev/ttyS1', 115200, 1)
     GUI.saveValues(root, GUI)
 
     while True:
@@ -124,4 +124,4 @@ async def main():
 
 
 if __name__=="__main__":
-    main()
+    asyncio.run(main())
