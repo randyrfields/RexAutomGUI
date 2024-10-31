@@ -34,7 +34,7 @@ class serialPolling:
     def __init__(self, port, baud, timeout):
         # Open serial port
         try:
-            self.ser = serial.Serial(port, baud, timeout)
+            self.ser = serial.Serial(port=port, bytesize=serial.EIGHTBITS, baudrate=baud, timeout=timeout)
         except serial.SerialException as e:
             # Send message to GUI
             self.errorcode = e
