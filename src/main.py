@@ -4,6 +4,9 @@ import sv_ttk
 from PIL import Image, ImageTk
 from pathlib import Path
 import os
+from rexserial import serialPolling
+import asyncio
+
 
 
 class MainGUI:
@@ -15,12 +18,6 @@ class MainGUI:
         self.mainWindowWidth = mainWindow.winfo_screenwidth()
         self.mainWindowHeight = mainWindow.winfo_screenheight()
         mainWindow.geometry(f"{self.mainWindowWidth}x{self.mainWindowHeight}+0+0")
-        self.image = Image.open(self.logo_dir)
-        self.image = self.image.resize((int(self.mainWindowWidth/4), int(self.mainWindowHeight/4)))
-        self.image = ImageTk.PhotoImage(self.image)
-        self.bg_label = tk.Label(mainWindow, image = self.image)
-        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-        self.bg_label.image = self.image
 
         self.scanResultsPane = tk.Frame(mainWindow, width=int(self.mainWindowWidth/4), height=int(self.mainWindowHeight*0.9))
         self.scanResultsPane.pack_propagate(False)
@@ -30,6 +27,29 @@ class MainGUI:
             canvas = tk.Canvas(self.scanResultsPane, relief='raised', borderwidth=2, width=int(self.mainWindowWidth/4), height=int(self.mainWindowHeight*0.075), bg="white")
             canvas.pack()
             self.canvases.append(canvas)
+        
+        self.controlPanel = tk.Frame(mainWindow, width=int(self.mainWindowWidth/4), height=int(self.mainWindowHeight*0.9))
+        self.controlPanel.pack_propagate(False)
+        self.controlPanel.pack(side='left', anchor="w")
+
+        self.scanButton = tk.Button(self.controlPanel, text='Scan', command=self.drawScan)
+        self.scanButton.config(height=3, width=10)
+        self.scanButton.pack(side='top')
+        self.clearButton = tk.Button(self.controlPanel, text='Clear', command=self.clearScan)
+        self.clearButton.config(height=3, width=10)
+        self.clearButton.pack(side='top')
+
+        self.logoPane = tk.Frame(mainWindow, width=int(self.mainWindowWidth/4), height=int(self.mainWindowHeight*0.9))
+        self.logoPane.pack_propagate(False)
+        self.logoPane.pack(side='right', anchor="e")
+        self.image = Image.open(self.logo_dir)
+        self.image = self.image.resize((int(self.mainWindowWidth/10), int(self.mainWindowHeight/10)))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.bg_label = tk.Label(self.logoPane, image = self.image)
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.bg_label.image = self.image
+        self.bg_label.pack(side="bottom")
+
 
         sv_ttk.set_theme("light")
 
@@ -65,15 +85,41 @@ class MainGUI:
 
                 self.rect[row,column] = self.canvases[index].create_rectangle(x1,y1,x2,y2, fill=color, tags="rect")
                 self.oval[row,column] = self.canvases[index].create_oval(x1+2,y1+2,x2-2,y2-2, fill="gray", tags="oval")
+        xpos = self.canvases[index].winfo_width() - 10
+        ypos = 50
+        self.canvases[index].create_text(xpos, ypos, anchor='e', text=f"Station {index+1}", font=("Arial", 16))
 
-        
+    def drawScan(self):
+        for val in range(7):
+            self.GUI.drawTOF(self.root, val)
+
+    def clearScan(self):
+        for i in range(7):
+            self.canvases[i].delete("all")
+
+
+    def saveValues(self, rootVal, GUIVal):
+        self.root = rootVal
+        self.GUI = GUIVal
+
  
 
-def main():
+async def main():
     root = tk.Tk()
     GUI = MainGUI(root)
-    for val in range(7):
-        GUI.drawTOF(root, val)
+    comPort = serialPolling()
+    GUI.saveValues(root, GUI)
+
+    while True:
+        await comPort.pollWriteController("data")
+        result = await comPort.pollReadController()
+        await asyncio.sleep(0.2)
+
+
+
+
+
+
     root.mainloop()
 
 
