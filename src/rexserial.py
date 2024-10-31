@@ -35,6 +35,7 @@ class serialPolling:
         # Open serial port
         try:
             self.ser = serial.Serial(port=port, bytesize=serial.EIGHTBITS, baudrate=baud, timeout=timeout)
+            self.running = True
         except serial.SerialException as e:
             # Send message to GUI
             self.errorcode = e
@@ -56,4 +57,3 @@ class serialPolling:
         if self.ser:
             self.ser.write(data)
             print(data)
-            
