@@ -111,7 +111,8 @@ async def main():
     GUI.saveValues(root, GUI)
 
     while True:
-        await comPort.pollWriteController("data")
+        value = "data"
+        await comPort.pollWriteController(value.encode())
         result = await comPort.pollReadController()
         await asyncio.sleep(0.2)
 
