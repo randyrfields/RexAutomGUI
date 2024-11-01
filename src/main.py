@@ -111,17 +111,12 @@ async def main():
     GUI.saveValues(root, GUI)
 
     while True:
+        root.update_idletasks()
+        root.update()
         value = "data"
         await comPort.pollWriteController(value.encode())
         result = await comPort.pollReadController()
         await asyncio.sleep(0.2)
-
-
-
-
-
-
-    root.mainloop()
 
 
 if __name__=="__main__":
