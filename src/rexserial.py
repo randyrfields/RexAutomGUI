@@ -57,3 +57,45 @@ class serialPolling:
         if self.ser:
             self.ser.write(data)
             print(data)
+
+    # COBS encode
+    async def  PktEncode(self, data: bytes):
+
+        length = len(data)
+        encoded = bytearray()
+
+        block_start = 0
+        while block_start < length:
+            block_end = block_start
+            while block_end < length and data[block_end] != 0:
+                block_end += 1
+            
+            block_size = block_end - block_start + 1
+            encoded.append(block_size)
+            encoded.extend(data[block_start:block_end])
+            block_start = block_end + 1
+        
+        encoded.append(0)
+
+        return bytes(encoded)
+
+    # COBS decode
+    async def PktDecode(self, data: bytes) -> bytes:
+        length = len(data)
+        decoded = bytearray()
+
+        block_start = 0
+        while block_start < length:
+            block_size = data[block_start]
+            if block_size == 0:
+                break
+
+            block_end = block_start + block_size
+            decoded.extend(data[block_start + 1:block_end])
+
+            if block_size < 0xFF:
+                decoded.append(0)
+
+            block_start = block_end
+
+        return bytes(decoded)
