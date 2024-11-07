@@ -113,9 +113,13 @@ async def main():
     while True:
         root.update_idletasks()
         root.update()
-        value = comPort.PktEncode("data")
+        value_encoded = ("data").encode()
+        value = comPort.PktEncode(value_encoded)
+        print(value)
+        newval = comPort.PktDecode(value)
+        print(newval)
         await comPort.pollWriteController(value)
-        result = await comPort.pollReadController()
+        # result = await comPort.pollReadController()
         await asyncio.sleep(0.2)
 
 

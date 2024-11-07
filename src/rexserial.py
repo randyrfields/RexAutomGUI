@@ -59,7 +59,7 @@ class serialPolling:
             print(data)
 
     # COBS encode
-    async def  PktEncode(self, data: bytes):
+    def  PktEncode(self, data: bytes):
 
         length = len(data)
         encoded = bytearray()
@@ -80,7 +80,7 @@ class serialPolling:
         return bytes(encoded)
 
     # COBS decode
-    async def PktDecode(self, data: bytes) -> bytes:
+    def PktDecode(self, data: bytes) -> bytes:
         length = len(data)
         decoded = bytearray()
 
