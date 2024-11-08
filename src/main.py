@@ -12,6 +12,9 @@ class MainGUI:
     def __init__(self, mainWindow):
         self.assets_dir = Path(__file__).parent.parent / "assets"
         self.logo_dir = os.path.join(self.assets_dir, "Rexair-LLC.png")
+        self.scanRequested = False
+        self.stationCount = 0
+        self.canvases = []
 
         mainWindow.title("Rexair Automation Controller")
         self.mainWindowWidth = mainWindow.winfo_screenwidth()
@@ -25,18 +28,6 @@ class MainGUI:
         )
         self.scanResultsPane.pack_propagate(False)
         self.scanResultsPane.pack(side="left", anchor="w")
-        self.canvases = []
-        for i in range(7):
-            canvas = tk.Canvas(
-                self.scanResultsPane,
-                relief="raised",
-                borderwidth=2,
-                width=int(self.mainWindowWidth / 4),
-                height=int(self.mainWindowHeight * 0.075),
-                bg="white",
-            )
-            canvas.pack()
-            self.canvases.append(canvas)
 
         self.controlPanel = tk.Frame(
             mainWindow,
@@ -75,6 +66,22 @@ class MainGUI:
         self.bg_label.pack(side="bottom")
 
         sv_ttk.set_theme("light")
+
+    def setlocalCOM(self, comHandle):
+        self.comPort = comHandle
+
+    def drawStations(self):
+        self.stationCount += 1
+        canvas = tk.Canvas(
+            self.scanResultsPane,
+            relief="raised",
+            borderwidth=2,
+            width=int(self.mainWindowWidth / 4),
+            height=int(self.mainWindowHeight * 0.075),
+            bg="white",
+        )
+        canvas.pack()
+        self.canvases.append(canvas)
 
     def listDevices(self, frame):
         values = ["Option 1", "Option 2", "Option 3"]
@@ -119,12 +126,14 @@ class MainGUI:
         )
 
     def drawScan(self):
-        for val in range(7):
-            self.GUI.drawTOF(self.root, val)
+        self.scanRequested = True
 
     def clearScan(self):
-        for i in range(7):
-            self.canvases[i].delete("all")
+        for i in range(0, self.stationCount):
+            self.canvases[i].destroy()
+
+        self.canvases = []
+        self.stationCount = 0
 
     def saveValues(self, rootVal, GUIVal):
         self.root = rootVal
@@ -135,20 +144,34 @@ async def main():
     root = tk.Tk()
     GUI = MainGUI(root)
     comPort = serialPolling("/dev/ttyS1", 115200, 1)
+    GUI.setlocalCOM(comPort)
     GUI.saveValues(root, GUI)
 
     while True:
         root.update_idletasks()
         root.update()
+        # if scan requested
+        if GUI.scanRequested == True:
+            GUI.scanRequested = False
+            for j in range(1, 8):
+                value_encoded = bytearray(
+                    [0xA5, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00]
+                )
+                value_encoded[2] = j
+                value = comPort.PktEncode(value_encoded)
+                await comPort.pollWriteController(value)
+                await asyncio.sleep(0.2)
+                result = await comPort.pollReadController()
+                returnValue = comPort.PktDecode(result)
+                print(returnValue)
+                GUI.drawStations()
+                root.update()
+
         value_encoded = bytearray([0xA5, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
         value = comPort.PktEncode(value_encoded)
-        # print(value)
-        newval = comPort.PktDecode(value)
-        # print(newval)
-        await comPort.pollWriteController(value)
+        # await comPort.pollWriteController(value)
         await asyncio.sleep(0.2)
-        result = await comPort.pollReadController()
-        print(result)
+        # result = await comPort.pollReadController()
 
 
 if __name__ == "__main__":
