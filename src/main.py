@@ -142,13 +142,13 @@ async def main():
         root.update()
         value_encoded = bytearray([0xA5, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
         value = comPort.PktEncode(value_encoded)
-        print(value)
+        # print(value)
         newval = comPort.PktDecode(value)
-        print(newval)
+        # print(newval)
         await comPort.pollWriteController(value)
-        # result = await comPort.pollReadController()
-        # print(result)
         await asyncio.sleep(0.2)
+        result = await comPort.pollReadController()
+        print(result)
 
 
 if __name__ == "__main__":
