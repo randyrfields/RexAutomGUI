@@ -167,7 +167,7 @@ async def main():
                 GUI.drawStations()
                 if returnValue[3] == 0x02:
                     print("j=", j)
-                    GUI.drawTOF(j)
+                    GUI.drawTOF(j - 1)
                 root.update()
 
         value_encoded = bytearray([0xA5, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
