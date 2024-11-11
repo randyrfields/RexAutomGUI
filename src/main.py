@@ -162,6 +162,7 @@ async def main():
                 await comPort.pollWriteController(value)
                 await asyncio.sleep(0.2)
                 result = await comPort.pollReadController()
+                print("Res=", result)
                 returnValue = comPort.PktDecode(result)
                 print(", ".join(f"{byte:02x}" for byte in returnValue))
                 GUI.drawStations()
