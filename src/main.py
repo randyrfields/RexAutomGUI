@@ -92,7 +92,7 @@ class MainGUI:
         combobox2.grid(row=1, column=0)
         # combobox2.pack()
 
-    def drawTOF(self, mainWindow, index):
+    def drawTOF(self, index):
         offset = 10
         self.rect = {}
         self.oval = {}
@@ -166,7 +166,8 @@ async def main():
                 print(", ".join(f"{byte:02x}" for byte in returnValue))
                 GUI.drawStations()
                 if returnValue[3] == 0x02:
-                    GUI.drawTOF(GUI, j)
+                    print("j=", j)
+                    GUI.drawTOF(j)
                 root.update()
 
         value_encoded = bytearray([0xA5, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
