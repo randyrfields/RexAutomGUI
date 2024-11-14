@@ -1,182 +1,299 @@
-import tkinter as tk
-from tkinter import ttk
-import sv_ttk
-from PIL import Image, ImageTk
-from pathlib import Path
+import tkinter
+import tkinter.messagebox
+import customtkinter
 import os
-from rexserial import serialPolling
-import asyncio
+from pathlib import Path
+from PIL import Image
+
+customtkinter.set_appearance_mode(
+    "System"
+)  # Modes: "System" (standard), "Dark", "Light"
+customtkinter.set_default_color_theme(
+    "blue"
+)  # Themes: "blue" (standard), "green", "dark-blue"
 
 
-class MainGUI:
-    def __init__(self, mainWindow):
+class App(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+
+        # configure window
+        self.title("Rexair Automation Controller")
+        self.geometry(f"{1100}x{580}")
+
         self.assets_dir = Path(__file__).parent.parent / "assets"
         self.logo_dir = os.path.join(self.assets_dir, "Rexair-LLC.png")
-        self.scanRequested = False
-        self.stationCount = 0
-        self.canvases = []
-
-        mainWindow.title("Rexair Automation Controller")
-        self.mainWindowWidth = mainWindow.winfo_screenwidth()
-        self.mainWindowHeight = mainWindow.winfo_screenheight()
-        mainWindow.geometry(f"{self.mainWindowWidth}x{self.mainWindowHeight}+0+0")
-
-        self.scanResultsPane = tk.Frame(
-            mainWindow,
-            width=int(self.mainWindowWidth / 4),
-            height=int(self.mainWindowHeight * 0.9),
-        )
-        self.scanResultsPane.pack_propagate(False)
-        self.scanResultsPane.pack(side="left", anchor="w")
-
-        self.controlPanel = tk.Frame(
-            mainWindow,
-            width=int(self.mainWindowWidth / 4),
-            height=int(self.mainWindowHeight * 0.9),
-        )
-        self.controlPanel.pack_propagate(False)
-        self.controlPanel.pack(side="left", anchor="w")
-
-        self.scanButton = tk.Button(
-            self.controlPanel, text="Scan", command=self.drawScan
-        )
-        self.scanButton.config(height=3, width=10)
-        self.scanButton.pack(side="top")
-        self.clearButton = tk.Button(
-            self.controlPanel, text="Clear", command=self.clearScan
-        )
-        self.clearButton.config(height=3, width=10)
-        self.clearButton.pack(side="top")
-
-        self.logoPane = tk.Frame(
-            mainWindow,
-            width=int(self.mainWindowWidth / 4),
-            height=int(self.mainWindowHeight * 0.9),
-        )
-        self.logoPane.pack_propagate(False)
-        self.logoPane.pack(side="right", anchor="e")
         self.image = Image.open(self.logo_dir)
-        self.image = self.image.resize(
-            (int(self.mainWindowWidth / 10), int(self.mainWindowHeight / 10))
+        ctk_image = customtkinter.CTkImage(light_image=self.image, size=(120, 75))
+
+        # configure grid layout (4x4)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure((2, 3), weight=0)
+        self.grid_rowconfigure((0, 1, 2), weight=1)
+
+        # create sidebar frame with widgets
+        self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
+        self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
+        self.sidebar_frame.grid_rowconfigure(4, weight=1)
+        self.logo_label = customtkinter.CTkLabel(
+            self.sidebar_frame,
+            text="Station Control",
+            font=customtkinter.CTkFont(size=20, weight="bold"),
         )
-        self.image = ImageTk.PhotoImage(self.image)
-        self.bg_label = tk.Label(self.logoPane, image=self.image)
-        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-        self.bg_label.image = self.image
-        self.bg_label.pack(side="bottom")
-
-        sv_ttk.set_theme("light")
-
-    def setlocalCOM(self, comHandle):
-        self.comPort = comHandle
-
-    def drawStations(self):
-        self.stationCount += 1
-        canvas = tk.Canvas(
-            self.scanResultsPane,
-            relief="raised",
-            borderwidth=2,
-            width=int(self.mainWindowWidth / 4),
-            height=int(self.mainWindowHeight * 0.075),
-            bg="white",
+        self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
+        self.sidebar_button_1 = customtkinter.CTkButton(
+            self.sidebar_frame, command=self.sidebar_button_event, text="Scan"
         )
-        canvas.pack()
-        self.canvases.append(canvas)
-
-    def listDevices(self, frame):
-        values = ["Option 1", "Option 2", "Option 3"]
-        combobox1 = ttk.Combobox(self.scanResultsPane, values=values)
-        combobox1.grid(row=0, column=0)
-        # combobox1.pack()
-        combobox2 = ttk.Combobox(self.scanResultsPane, values=values)
-        combobox2.grid(row=1, column=0)
-        # combobox2.pack()
-
-    def drawTOF(self, index):
-        offset = 10
-        self.rect = {}
-        self.oval = {}
-        self.cellwidth = 10
-        self.cellheight = 10
-        for column in range(4):
-            for row in range(4):
-                x1 = column * self.cellwidth
-                y1 = row * self.cellheight
-                x2 = x1 + self.cellwidth
-                y2 = y1 + self.cellheight
-                x1 += offset
-                x2 += offset
-                y1 += offset
-                y2 += offset
-                if index == 4:
-                    color = "#90EE90"
-                else:
-                    color = "white"
-
-                self.rect[row, column] = self.canvases[index].create_rectangle(
-                    x1, y1, x2, y2, fill=color, tags="rect"
-                )
-                self.oval[row, column] = self.canvases[index].create_oval(
-                    x1 + 2, y1 + 2, x2 - 2, y2 - 2, fill="gray", tags="oval"
-                )
-        xpos = self.canvases[index].winfo_width() - 10
-        ypos = 50
-        self.canvases[index].create_text(
-            xpos, ypos, anchor="e", text=f"Station {index+1}", font=("Arial", 16)
+        self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
+        self.sidebar_button_2 = customtkinter.CTkButton(
+            self.sidebar_frame, command=self.sidebar_button_event, text="Clear"
         )
+        self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
+        # self.sidebar_button_3 = customtkinter.CTkButton(
+        #     self.sidebar_frame, command=self.sidebar_button_event
+        # )
+        # self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
+        self.appearance_mode_label = customtkinter.CTkLabel(
+            self.sidebar_frame, text="Appearance Mode:", anchor="w"
+        )
+        self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
+        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(
+            self.sidebar_frame,
+            values=["Light", "Dark", "System"],
+            command=self.change_appearance_mode_event,
+        )
+        self.appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
+        self.scaling_label = customtkinter.CTkLabel(
+            self.sidebar_frame, text="UI Scaling:", anchor="w"
+        )
+        self.scaling_label.grid(row=7, column=0, padx=20, pady=(10, 0))
+        self.scaling_optionemenu = customtkinter.CTkOptionMenu(
+            self.sidebar_frame,
+            values=["80%", "90%", "100%", "110%", "120%"],
+            command=self.change_scaling_event,
+        )
+        self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(10, 20))
 
-    def drawScan(self):
-        self.scanRequested = True
+        # create main entry and button
+        # self.entry = customtkinter.CTkEntry(self, placeholder_text="CTkEntry")
+        # self.entry.grid(
+        #     row=3, column=1, columnspan=2, padx=(20, 0), pady=(20, 20), sticky="nsew"
+        # )
 
-    def clearScan(self):
-        for i in range(0, self.stationCount):
-            self.canvases[i].destroy()
+        # self.main_button_1 = customtkinter.CTkButton(
+        #     master=self,
+        #     fg_color="transparent",
+        #     border_width=2,
+        #     text_color=("gray10", "#DCE4EE"),
+        # )
+        # self.main_button_1.grid(
+        #     row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew"
+        # )
 
-        self.canvases = []
-        self.stationCount = 0
+        self.logo_frame = customtkinter.CTkFrame(
+            self, width=150, fg_color="transparent", corner_radius=0
+        )
+        self.logo_frame.grid(row=3, column=3, sticky="nsew")
+        self.logo_frame.grid_rowconfigure(1, weight=1)
+        self.logo_label = customtkinter.CTkLabel(
+            self.logo_frame, image=ctk_image, text=""
+        )
+        self.logo_label.pack(pady=10)
+        # self.logo_label.grid(row=3, column=3, padx=20, pady=(20, 10))
+        # self.logo_label.configure(width=340)
+        # self.rexlogo.grid(row=3, column=3, padx=20, pady=20)
+        # self.rexlogo.pack(pady=20)
 
-    def saveValues(self, rootVal, GUIVal):
-        self.root = rootVal
-        self.GUI = GUIVal
+        # create textbox
+        self.textbox = customtkinter.CTkTextbox(self, width=250)
+        self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
 
+        self.station_frame = customtkinter.CTkFrame(self, width=340, corner_radius=0)
+        self.station_frame.grid(row=0, column=2, rowspan=4, sticky="nsew")
+        self.station_frame.grid_rowconfigure(4, weight=1)
+        self.station_label = customtkinter.CTkLabel(
+            self.station_frame,
+            text="Stations",
+            font=customtkinter.CTkFont(size=20, weight="bold"),
+        )
+        self.station_label.grid(row=0, column=2, padx=20, pady=(20, 10))
+        self.station_label.configure(width=340)
 
-async def main():
-    root = tk.Tk()
-    GUI = MainGUI(root)
-    comPort = serialPolling("/dev/ttyS1", 115200, 1)
-    GUI.setlocalCOM(comPort)
-    GUI.saveValues(root, GUI)
+        # create tabview
+        # self.tabview = customtkinter.CTkTabview(self, width=250)
+        # self.tabview.grid(row=0, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
+        # self.tabview.add("Stations")
+        # # self.tabview.add("Tab 2")
+        # # self.tabview.add("Tab 3")
+        # self.tabview.tab("Stations").grid_columnconfigure(
+        #     0, weight=1
+        # )  # configure grid of individual tabs
+        # self.tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
 
-    while True:
-        root.update_idletasks()
-        root.update()
-        # if scan requested
-        if GUI.scanRequested == True:
-            GUI.scanRequested = False
-            for j in range(1, 8):
-                value_encoded = bytearray(
-                    [0xA5, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00]
-                )
-                value_encoded[2] = j
-                value = comPort.PktEncode(value_encoded)
-                await comPort.pollWriteController(value)
-                await asyncio.sleep(0.2)
-                result = await comPort.pollReadController()
-                print("Res=", result)
-                returnValue = comPort.PktDecode(result)
-                print(", ".join(f"{byte:02x}" for byte in returnValue))
-                GUI.drawStations()
-                if returnValue[3] == 0x02:
-                    print("j=", j)
-                    GUI.drawTOF(j - 1)
-                root.update()
+        # self.optionmenu_1 = customtkinter.CTkOptionMenu(
+        #     self.tabview.tab("CTkTabview"),
+        #     dynamic_resizing=False,
+        #     values=["Value 1", "Value 2", "Value Long Long Long"],
+        # )
+        # self.optionmenu_1.grid(row=0, column=0, padx=20, pady=(20, 10))
+        # self.combobox_1 = customtkinter.CTkComboBox(
+        #     self.tabview.tab("CTkTabview"),
+        #     values=["Value 1", "Value 2", "Value Long....."],
+        # )
+        # self.combobox_1.grid(row=1, column=0, padx=20, pady=(10, 10))
+        # self.string_input_button = customtkinter.CTkButton(
+        #     self.tabview.tab("CTkTabview"),
+        #     text="Open CTkInputDialog",
+        #     command=self.open_input_dialog_event,
+        # )
+        # self.string_input_button.grid(row=2, column=0, padx=20, pady=(10, 10))
+        # self.label_tab_2 = customtkinter.CTkLabel(
+        #     self.tabview.tab("Tab 2"), text="CTkLabel on Tab 2"
+        # )
+        # self.label_tab_2.grid(row=0, column=0, padx=20, pady=20)
 
-        value_encoded = bytearray([0xA5, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
-        value = comPort.PktEncode(value_encoded)
-        # await comPort.pollWriteController(value)
-        await asyncio.sleep(0.2)
-        # result = await comPort.pollReadController()
+        # create radiobutton frame
+        self.radiobutton_frame = customtkinter.CTkFrame(self)
+        self.radiobutton_frame.grid(
+            row=0, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew"
+        )
+        self.radio_var = tkinter.IntVar(value=0)
+        self.label_radio_group = customtkinter.CTkLabel(
+            master=self.radiobutton_frame, text="Scan Options"
+        )
+        self.label_radio_group.grid(
+            row=0, column=2, columnspan=1, padx=10, pady=10, sticky=""
+        )
+        self.radio_button_1 = customtkinter.CTkRadioButton(
+            master=self.radiobutton_frame,
+            variable=self.radio_var,
+            value=0,
+            text="Polling Mode",
+        )
+        self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="nw")
+        self.radio_button_2 = customtkinter.CTkRadioButton(
+            master=self.radiobutton_frame,
+            variable=self.radio_var,
+            value=1,
+            text="Learn Mode",
+        )
+        self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="nw")
+        # self.radio_button_3 = customtkinter.CTkRadioButton(
+        #     master=self.radiobutton_frame, variable=self.radio_var, value=2
+        # )
+        # self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="n")
+
+        # create slider and progressbar frame
+        self.slider_progressbar_frame = customtkinter.CTkFrame(
+            self, fg_color="transparent"
+        )
+        self.slider_progressbar_frame.grid(
+            row=1, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew"
+        )
+        self.slider_progressbar_frame.grid_columnconfigure(0, weight=1)
+        self.slider_progressbar_frame.grid_rowconfigure(4, weight=1)
+        # self.seg_button_1 = customtkinter.CTkSegmentedButton(
+        #     self.slider_progressbar_frame
+        # )
+        # self.seg_button_1.grid(
+        #     row=0, column=0, padx=(20, 10), pady=(10, 10), sticky="ew"
+        # )
+        self.progressbar_1 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
+        self.progressbar_1.grid(
+            row=1, column=0, padx=(20, 10), pady=(10, 10), sticky="ew"
+        )
+        # self.progressbar_2 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
+        # self.progressbar_2.grid(
+        #     row=2, column=0, padx=(20, 10), pady=(10, 10), sticky="ew"
+        # )
+        # self.slider_1 = customtkinter.CTkSlider(
+        #     self.slider_progressbar_frame, from_=0, to=1, number_of_steps=4
+        # )
+        # self.slider_1.grid(row=3, column=0, padx=(20, 10), pady=(10, 10), sticky="ew")
+        # self.slider_2 = customtkinter.CTkSlider(
+        #     self.slider_progressbar_frame, orientation="vertical"
+        # )
+        # self.slider_2.grid(
+        #     row=0, column=1, rowspan=5, padx=(10, 10), pady=(10, 10), sticky="ns"
+        # )
+        # self.progressbar_3 = customtkinter.CTkProgressBar(
+        #     self.slider_progressbar_frame, orientation="vertical"
+        # )
+        # self.progressbar_3.grid(
+        #     row=0, column=2, rowspan=5, padx=(10, 20), pady=(10, 10), sticky="ns"
+        # )
+
+        # create scrollable frame
+        # self.scrollable_frame = customtkinter.CTkScrollableFrame(
+        #     self, label_text="CTkScrollableFrame"
+        # )
+        # self.scrollable_frame.grid(
+        #     row=1, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew"
+        # )
+        # self.scrollable_frame.grid_columnconfigure(0, weight=1)
+        # self.scrollable_frame_switches = []
+        # for i in range(100):
+        #     switch = customtkinter.CTkSwitch(
+        #         master=self.scrollable_frame, text=f"CTkSwitch {i}"
+        #     )
+        #     switch.grid(row=i, column=0, padx=10, pady=(0, 20))
+        #     self.scrollable_frame_switches.append(switch)
+
+        # create checkbox and switch frame
+        self.checkbox_slider_frame = customtkinter.CTkFrame(self)
+        self.checkbox_slider_frame.grid(
+            row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew"
+        )
+        self.checkbox_1 = customtkinter.CTkCheckBox(
+            master=self.checkbox_slider_frame, text="Live Display"
+        )
+        self.checkbox_1.grid(row=1, column=0, pady=(20, 0), padx=20, sticky="nw")
+        self.checkbox_2 = customtkinter.CTkCheckBox(
+            master=self.checkbox_slider_frame, text="Stop on Error"
+        )
+        self.checkbox_2.grid(row=2, column=0, pady=(20, 0), padx=20, sticky="nw")
+        # self.checkbox_3 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
+        # self.checkbox_3.grid(row=3, column=0, pady=20, padx=20, sticky="n")
+
+        # set default values
+        # self.sidebar_button_3.configure(state="disabled", text="Disabled CTkButton")
+        # self.checkbox_3.configure(state="disabled")
+        self.checkbox_1.select()
+        # self.scrollable_frame_switches[0].select()
+        # self.scrollable_frame_switches[4].select()
+        # self.radio_button_3.configure(state="disabled")
+        self.appearance_mode_optionemenu.set("Dark")
+        self.scaling_optionemenu.set("100%")
+        # self.optionmenu_1.set("CTkOptionmenu")
+        # self.combobox_1.set("CTkComboBox")
+        # self.slider_1.configure(command=self.progressbar_2.set)
+        # self.slider_2.configure(command=self.progressbar_3.set)
+        self.progressbar_1.configure(mode="indeterminnate")
+        self.progressbar_1.start()
+        self.textbox.insert(
+            "0.0",
+            "Rexair Automation\n\n" + "<Terminal for System Feedback>" * 1,
+        )
+        # self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
+        # self.seg_button_1.set("Value 2")
+
+    def open_input_dialog_event(self):
+        dialog = customtkinter.CTkInputDialog(
+            text="Type in a number:", title="CTkInputDialog"
+        )
+        print("CTkInputDialog:", dialog.get_input())
+
+    def change_appearance_mode_event(self, new_appearance_mode: str):
+        customtkinter.set_appearance_mode(new_appearance_mode)
+
+    def change_scaling_event(self, new_scaling: str):
+        new_scaling_float = int(new_scaling.replace("%", "")) / 100
+        customtkinter.set_widget_scaling(new_scaling_float)
+
+    def sidebar_button_event(self):
+        print("sidebar_button click")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    app = App()
+    app.mainloop()
