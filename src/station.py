@@ -34,10 +34,6 @@ class Station:
             station_frame = customtkinter.CTkFrame(
                 self.outer_frame, border_color="black"
             )
-            if x == 3:
-                bgc = "green"
-            else:
-                bgc = "#4169E1"
             self.station_frames.append(station_frame)
             self.station_frames[x].grid(row=x + 1, padx=5, pady=5)
             self.station_button.append(
@@ -47,7 +43,7 @@ class Station:
                     command=partial(self.button_click, x),
                     width=200,
                     height=90,
-                    fg_color=bgc,
+                    fg_color=#4169E1,
                 )
             )
             self.station_buttons.append(self.station_button[x])
