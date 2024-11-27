@@ -21,6 +21,6 @@ class SystemController:
         # self.gui.station_buttons[2].configure(fg_color="green")
         while True:
             print("Main Thread")
-            if self.gui.ScanButton:
-                self.station.performScan()
+            # if self.gui.ScanButton:
+            self.station.performScan()
             time.sleep(1)
