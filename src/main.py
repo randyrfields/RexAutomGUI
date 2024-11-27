@@ -2,9 +2,11 @@ import tkinter
 import tkinter.messagebox
 import customtkinter
 import os
-from station import Station
 from pathlib import Path
 from PIL import Image
+from functools import partial
+from station import Station
+from system import SystemController
 
 customtkinter.set_appearance_mode(
     "System"
@@ -14,9 +16,13 @@ customtkinter.set_default_color_theme(
 )  # Themes: "blue" (standard), "green", "dark-blue"
 
 
-class App(customtkinter.CTk):
+class GUI(customtkinter.CTk):
     def __init__(self):
         super().__init__()
+
+        self.station_frames = []
+        self.station_buttons = []
+        self.station_button = []
 
         # configure window
         self.title("Rexair Automation Controller")
@@ -43,11 +49,15 @@ class App(customtkinter.CTk):
         )
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.sidebar_button_1 = customtkinter.CTkButton(
-            self.sidebar_frame, command=self.sidebar_button_event, text="Scan"
+            self.sidebar_frame,
+            command=partial(self.sidebar_button_event, "Scan"),
+            text="Scan",
         )
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.sidebar_button_2 = customtkinter.CTkButton(
-            self.sidebar_frame, command=self.sidebar_button_event, text="Clear"
+            self.sidebar_frame,
+            command=partial(self.sidebar_button_event, "Clear"),
+            text="Clear",
         )
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
         self.appearance_mode_label = customtkinter.CTkLabel(
@@ -189,12 +199,48 @@ class App(customtkinter.CTk):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         customtkinter.set_widget_scaling(new_scaling_float)
 
-    def sidebar_button_event(self):
-        print("sidebar_button click")
+    def sidebar_button_event(self, value):
+        if value == "Scan":
+            print("Scan Button click")
+        else:
+            print("Clear Button click")
+
+    def showStation(self, number):
+
+        self.outer_frame = customtkinter.CTkFrame(self.station_frame)
+        self.outer_frame.grid(row=1, column=2, padx=5, pady=5)
+
+        for x in range(number):
+            self.station_frame = customtkinter.CTkFrame(
+                self.outer_frame, border_color="black"
+            )
+            if x == 3:
+                bgc = "green"
+            else:
+                bgc = "#4169E1"
+
+            self.station_frames.append(self.station_frame)
+            self.station_frames[x].grid(row=x + 1, padx=5, pady=5)
+            self.station_button.append(
+                customtkinter.CTkButton(
+                    self.station_frames[x],
+                    text=f"Station {x+1}",
+                    command=partial(self.button_click, x),
+                    width=200,
+                    height=90,
+                    fg_color=bgc,
+                )
+            )
+            self.station_button[x].pack()
+            self.station_buttons.append(self.station_button[x])
+
+    def button_click(self, index):
+        print(f"Button Click = {index}")
 
 
 if __name__ == "__main__":
-    app = App()
-    station = Station(app)
-    station.showStation()
-    app.mainloop()
+    gui = GUI()
+    station = Station(gui)
+    sys = SystemController(gui, station)
+    # station.showStation()
+    gui.mainloop()

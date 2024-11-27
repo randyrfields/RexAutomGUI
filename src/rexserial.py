@@ -35,7 +35,6 @@ class serialPolling:
     async def pollWriteController(self, data):
         if self.ser:
             self.ser.write(data)
-            print(data)
 
     # COBS encode
     def PktEncode(self, data: bytes):
@@ -78,3 +77,14 @@ class serialPolling:
             block_start = block_end
 
         return bytes(decoded)
+
+    async def Poll(self, node, command):
+
+        # Request status
+        address = 0xA0 | node
+        command.insert(0, address)
+        requestStatusPkt = self.PktEncode(command)
+        # Send packet
+        await self.pollWriteController(requestStatusPkt)
+        time.sleep(0.1)
+        response = await self.pollReadController()
