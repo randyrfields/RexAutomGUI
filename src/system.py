@@ -10,15 +10,17 @@ class SystemController:
         mainThread.start()
 
     def mainTask(self):
-        self.gui.showStation(3)
-        time.sleep(3)
-        self.gui.station_buttons[0].configure(fg_color="green")
-        time.sleep(3)
-        self.gui.station_buttons[0].configure(fg_color="#4169E1")
-        self.gui.station_buttons[1].configure(fg_color="green")
-        time.sleep(3)
-        self.gui.station_buttons[1].configure(fg_color="#4169E1")
-        self.gui.station_buttons[2].configure(fg_color="green")
+        # self.gui.showStation(3)
+        # time.sleep(3)
+        # self.gui.station_buttons[0].configure(fg_color="green")
+        # time.sleep(3)
+        # self.gui.station_buttons[0].configure(fg_color="#4169E1")
+        # self.gui.station_buttons[1].configure(fg_color="green")
+        # time.sleep(3)
+        # self.gui.station_buttons[1].configure(fg_color="#4169E1")
+        # self.gui.station_buttons[2].configure(fg_color="green")
         while True:
             print("Main Thread")
+            if self.gui.ScanButton:
+                self.station.performScan()
             time.sleep(1)

@@ -88,3 +88,4 @@ class serialPolling:
         await self.pollWriteController(requestStatusPkt)
         time.sleep(0.1)
         response = await self.pollReadController()
+        return response
