@@ -25,6 +25,7 @@ class serialPolling:
         if self.ser and self.ser.is_open:
             self.ser.close()
 
+    # |Header|Length|Command|NodeID|Data|0x00|
     async def pollReadController(self):
         # Transmit
         if self.running:
@@ -91,8 +92,12 @@ class serialPolling:
         requestStatusPkt = self.PktEncode(value)
         # Send packet
         await self.pollWriteController(requestStatusPkt)
-        time.sleep(0.1)
+        time.sleep(0.5)
         response = await self.pollReadController()
-        print("Len =", len(response))
+        y = len(response)
+        print("Len =", y)
+        for z in y:
+            print("=>%2x", response[z])
+
         print("response=%2x,%2x\n" % (response[0], response[1]))
         return response
