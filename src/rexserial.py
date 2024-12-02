@@ -84,6 +84,7 @@ class serialPolling:
         address = 0xA0 | node
         cmd.append(command.value)
         cmd.insert(0, address)
+        cmd.insert(1, 3)
         print("list=", cmd)
         value = bytes(cmd)
         print("value=", value)
@@ -92,5 +93,8 @@ class serialPolling:
         await self.pollWriteController(requestStatusPkt)
         time.sleep(0.1)
         response = await self.pollReadController()
-        # print("response=%2d\n" % response)
+        print(
+            "response=%2x,%2x,%2x,%2x\n"
+            % (response[0], response[1], response[2], response[3])
+        )
         return response
