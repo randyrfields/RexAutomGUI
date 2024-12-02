@@ -92,5 +92,5 @@ class serialPolling:
         await self.pollWriteController(requestStatusPkt)
         time.sleep(0.1)
         response = await self.pollReadController()
-        print("response=%02x\n")
+        print("response=%2d\n" % response)
         return response
