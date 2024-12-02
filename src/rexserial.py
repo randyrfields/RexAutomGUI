@@ -81,6 +81,7 @@ class serialPolling:
 
     async def Poll(self, node, command):
         cmd = []
+        response = []
         # Request status
         address = 0xA0 | node
         cmd.append(command.value)
