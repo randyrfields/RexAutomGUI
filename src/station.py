@@ -12,7 +12,7 @@ class SysControlCommands(Enum):
 
 class Station:
 
-    nodeStatus = [8][32]
+    nodeStatus = [[], []]
 
     def __init__(self, mainWindow):
 
@@ -24,4 +24,6 @@ class Station:
         for x in range(1, 8):
             print("Loop")
             result = await self.serial.Poll(x, SysControlCommands.GETSTATUS)
-            self.nodeStatus[x][0] = list(result[4:7])
+            # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
+            self.nodeStatus = list(result[4:8])
+            print(self.nodeStatus)
