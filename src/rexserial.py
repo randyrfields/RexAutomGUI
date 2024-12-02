@@ -79,11 +79,15 @@ class serialPolling:
         return bytes(decoded)
 
     async def Poll(self, node, command):
-
+        cmd = []
         # Request status
         address = 0xA0 | node
-        command.insert(0, address)
-        requestStatusPkt = self.PktEncode(command)
+        cmd.append(command.value)
+        cmd.insert(0, address)
+        print("list=", cmd)
+        value = bytes(cmd)
+        print("value=", value)
+        requestStatusPkt = self.PktEncode(value)
         # Send packet
         await self.pollWriteController(requestStatusPkt)
         time.sleep(0.1)

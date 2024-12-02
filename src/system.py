@@ -1,15 +1,21 @@
 import threading
 import time
+import asyncio
 
 
 class SystemController:
     def __init__(self, gui, station):
         self.station = station
         self.gui = gui
-        mainThread = threading.Thread(target=self.mainTask, daemon=True)
+        mainThread = threading.Thread(
+            target=asyncio.run, args=(self.mainTask(),), daemon=True
+        )
         mainThread.start()
 
-    def mainTask(self):
+    async def scanTask(self):
+        await self.station.performScan()
+
+    async def mainTask(self):
         # self.gui.showStation(3)
         # time.sleep(3)
         # self.gui.station_buttons[0].configure(fg_color="green")
@@ -22,5 +28,5 @@ class SystemController:
         while True:
             print("Main Thread")
             # if self.gui.ScanButton:
-            self.station.performScan()
+            await self.scanTask()
             time.sleep(1)

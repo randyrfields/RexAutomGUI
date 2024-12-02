@@ -16,8 +16,9 @@ class Station:
 
         self.mainWindow = mainWindow
         self.totalNumberStations = 0
-        self.serial = serialPolling
+        self.serial = serialPolling("/dev/ttyS1", 115200, 1)
 
-    def performScan(self):
-        for x in range(0, 8):
-            self.serial.Poll(x, SysControlCommands.GETSTATUS)
+    async def performScan(self):
+        for x in range(1, 8):
+            print("Loop")
+            result = await self.serial.Poll(x, SysControlCommands.GETSTATUS)
