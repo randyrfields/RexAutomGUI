@@ -214,10 +214,8 @@ class GUI(customtkinter.CTk):
             self.station_frame = customtkinter.CTkFrame(
                 self.outer_frame, border_color="black"
             )
-            if x == 3:
-                bgc = "green"
-            else:
-                bgc = "#4169E1"
+
+            bgc = "#4169E1"
 
             self.station_frames.append(self.station_frame)
             self.station_frames[x].grid(row=x + 1, padx=5, pady=5)
