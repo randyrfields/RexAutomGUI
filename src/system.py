@@ -32,7 +32,7 @@ class SystemController:
 
             # if self.gui.ScanButton:
             await self.scanTask()
-            time.sleep(1)
+            time.sleep(0.25)
             # print(self.station.nodeStatus)
             for i in range(0, 7):
                 if self.station.nodeStatus[i][0] == 1:
