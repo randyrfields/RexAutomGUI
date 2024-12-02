@@ -87,17 +87,15 @@ class serialPolling:
         cmd.append(command.value)
         cmd.insert(0, address)
         cmd.insert(1, 3)
-        print("list=", cmd)
         value = bytes(cmd)
-        print("value=", value)
         requestStatusPkt = self.PktEncode(value)
         # Send packet
         await self.pollWriteController(requestStatusPkt)
         time.sleep(0.2)
         response = await self.pollReadController()
         dcdpkt = self.PktDecode(response)
-        y = len(dcdpkt) - 1
-        for z in range(y):
-            print("=>%2x" % dcdpkt[z])
+        # y = len(dcdpkt) - 1
+        # for z in range(y):
+        #     print("=>%2x" % dcdpkt[z])
 
         return dcdpkt
