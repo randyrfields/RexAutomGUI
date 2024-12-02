@@ -103,6 +103,6 @@ class serialPolling:
         dcdpkt = self.PktDecode(response)
         y = len(dcdpkt)
         for z in range(y):
-            print("=>%2x" % response[z])
+            print("=>%2x" % dcdpkt[z])
 
         return response
