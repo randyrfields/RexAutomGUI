@@ -94,5 +94,5 @@ class serialPolling:
         time.sleep(0.1)
         response = await self.pollReadController()
         print("Len =", len(response))
-        # print("response=%2x,%2x,%2x,%2x\n" % (response[0], response[1], response[2]))
+        print("response=%2x,%2x\n" % (response[0], response[1]))
         return response
