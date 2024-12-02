@@ -28,12 +28,12 @@ class SystemController:
         while True:
             print("Main Thread")
 
-            self.station.nodeStatus[0][0] = 1
+            # self.station.nodeStatus[0][0] = 1
 
             # if self.gui.ScanButton:
-            # await self.scanTask()
+            await self.scanTask()
             time.sleep(1)
-            print(self.station.nodeStatus)
+            # print(self.station.nodeStatus)
             for i in range(0, 7):
                 if self.station.nodeStatus[i][0] == 1:
                     self.gui.station_buttons[i].configure(fg_color="green")
