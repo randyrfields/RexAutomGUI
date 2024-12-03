@@ -204,6 +204,7 @@ class GUI(customtkinter.CTk):
             print("Scan Button click")
         else:
             print("Clear Button click")
+            self.clearStations()
 
     def showStation(self, number):
 
@@ -232,6 +233,9 @@ class GUI(customtkinter.CTk):
             self.station_button[x].pack()
             self.station_buttons.append(self.station_button[x])
 
+    def clearStations(self):
+        self.outer_frame.grid_forget()
+
     def button_click(self, index):
         print(f"Button Click = {index}")
 
@@ -240,5 +244,4 @@ if __name__ == "__main__":
     gui = GUI()
     station = Station(gui)
     sys = SystemController(gui, station)
-    # station.showStation()
     gui.mainloop()
