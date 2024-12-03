@@ -19,6 +19,8 @@ class Station:
         self.mainWindow = mainWindow
         self.totalNumberStations = 0
         self.serial = serialPolling("/dev/ttyS1", 115200, 1)
+
+        # Create list for status storage
         for i in range(1, 8):
             row = []
             for j in range(4):

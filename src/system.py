@@ -28,8 +28,6 @@ class SystemController:
         while True:
             print("Main Thread")
 
-            # self.station.nodeStatus[0][0] = 1
-
             # if self.gui.ScanButton:
             await self.scanTask()
             time.sleep(0.25)
