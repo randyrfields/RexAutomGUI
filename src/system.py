@@ -20,9 +20,9 @@ class SystemController:
         while True:
             print("Main Thread")
 
-            # await self.scanTask()
-            # for i in range(0, 7):
-            #     if self.station.nodeStatus[i][0] == 1:
-            #         self.gui.station_buttons[i].configure(fg_color="green")
-            #     else:
-            #         self.gui.station_buttons[i].configure(fg_color="#4169E1")
+            await self.scanTask()
+            for i in range(0, 7):
+                if self.station.nodeStatus[i][0] == 1:
+                    self.gui.station_buttons[i].configure(fg_color="green")
+                else:
+                    self.gui.station_buttons[i].configure(fg_color="#4169E1")
