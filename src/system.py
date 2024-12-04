@@ -29,6 +29,7 @@ class SystemController:
             print("IDLE>", StationStatus.IDLE)
             print("DETECT>", StationStatus.DETECTION)
             print("BLOCK>", StationStatus.BLOCKED)
+            print("Here")
             if self.station.nodeStatus[node][0] == StationStatus.IDLE:
                 print("IDLE>", StationStatus.IDLE)
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
