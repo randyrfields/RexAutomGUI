@@ -24,12 +24,15 @@ class SystemController:
         await self.station.performScan()
 
     def updateIcons(self):
+        idle = StationStatus.IDLE
+        detect = StationStatus.DETECTION
+        block = StationStatus.BLOCKED
         for node in range(1, 8):
-            if self.station.nodeStatus[node][0] == StationStatus.IDLE.value:
+            if self.station.nodeStatus[node][0] == idle.value:
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
-            elif self.station.nodeStatus[node][0] == StationStatus.DETECTION.value:
+            elif self.station.nodeStatus[node][0] == detect.value:
                 self.gui.station_buttons[node].configure(fg_color="green")
-            elif self.station.nodeStatus[node][0] == StationStatus.BLOCKED.value:
+            elif self.station.nodeStatus[node][0] == block.value:
                 self.gui.station_buttons[node].configure(fg_color="red")
             else:
                 self.gui.station_buttons[node].configure(fg_color="gray")
