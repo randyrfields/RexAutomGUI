@@ -32,6 +32,3 @@ class Station:
             result = await self.serial.Poll(x, SysControlCommands.GETSTATUS)
             # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
             self.nodeStatus[x] = list(result[2:8])
-            print("NS(X)=", self.nodeStatus[x])
-            # self.nodeStatus.insert(x, list(result[2:8]))
-            # print(self.nodeStatus)

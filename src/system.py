@@ -24,7 +24,7 @@ class SystemController:
         await self.station.performScan()
 
     def updateIcons(self):
-        for node in range(0, 7):
+        for node in range(1, 8):
             if self.station.nodeStatus[node][0] == StationStatus.IDLE:
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
             elif self.station.nodeStatus[node][0] == StationStatus.DETECTION:
@@ -40,7 +40,3 @@ class SystemController:
             print("Main Thread")
             await self.scanTask()
             self.updateIcons()
-            self.station.nodeStatus[1][0] = StationStatus.IDLE
-            self.station.nodeStatus[2][0] = StationStatus.DETECTION
-            self.station.nodeStatus[3][0] = StationStatus.BLOCKED
-            self.station.nodeStatus[4][0] = StationStatus.INACTIVE
