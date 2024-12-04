@@ -26,6 +26,9 @@ class SystemController:
     def updateIcons(self):
         for node in range(1, 8):
             print("Pass=", self.station.nodeStatus[node][0])
+            print("IDLE>", StationStatus.IDLE)
+            print("DETECT>", StationStatus.DETECTION)
+            print("BLOCK>", StationStatus.BLOCKED)
             if self.station.nodeStatus[node][0] == StationStatus.IDLE:
                 print("IDLE>", StationStatus.IDLE)
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
