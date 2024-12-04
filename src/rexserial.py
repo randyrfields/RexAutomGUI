@@ -84,7 +84,7 @@ class serialPolling:
         response = []
         # Request status
         address = 0xA0 | node
-        cmd.append(command.value)
+        cmd.append(command)
         cmd.insert(0, address)
         cmd.insert(1, 3)  # Length = 3
         value = bytes(cmd)

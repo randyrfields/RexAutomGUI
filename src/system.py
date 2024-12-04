@@ -28,7 +28,7 @@ class SystemController:
         detect = StationStatus.DETECTION
         block = StationStatus.BLOCKED
         for node in range(1, 8):
-            if self.station.nodeStatus[node][0] == 1:
+            if self.station.nodeStatus[node][0] == idle.value:
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
             elif self.station.nodeStatus[node][0] == 2:
                 self.gui.station_buttons[node].configure(fg_color="green")
