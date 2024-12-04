@@ -30,9 +30,9 @@ class SystemController:
         for node in range(1, 8):
             if self.station.nodeStatus[node][0] == idle.value:
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
-            elif self.station.nodeStatus[node][0] == 2:
+            elif self.station.nodeStatus[node][0] == detect.value:
                 self.gui.station_buttons[node].configure(fg_color="green")
-            elif self.station.nodeStatus[node][0] == 3:
+            elif self.station.nodeStatus[node][0] == block.value:
                 self.gui.station_buttons[node].configure(fg_color="red")
             else:
                 self.gui.station_buttons[node].configure(fg_color="gray")
