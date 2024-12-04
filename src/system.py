@@ -27,12 +27,16 @@ class SystemController:
         for node in range(1, 8):
             print("Pass=", self.station.nodeStatus[node][0])
             if self.station.nodeStatus[node][0] == StationStatus.IDLE:
+                print("IDLE>", StationStatus.IDLE)
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
             elif self.station.nodeStatus[node][0] == StationStatus.DETECTION:
+                print("DETECT>", StationStatus.DETECTION)
                 self.gui.station_buttons[node].configure(fg_color="green")
             elif self.station.nodeStatus[node][0] == StationStatus.BLOCKED:
+                print("BLOCK>", StationStatus.BLOCKED)
                 self.gui.station_buttons[node].configure(fg_color="red")
             else:
+                print("INACTIVE>", StationStatus.INACTIVE)
                 self.gui.station_buttons[node].configure(fg_color="gray")
 
     async def mainTask(self):
