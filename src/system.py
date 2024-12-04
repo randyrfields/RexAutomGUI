@@ -25,22 +25,13 @@ class SystemController:
 
     def updateIcons(self):
         for node in range(1, 8):
-            print("Pass=", self.station.nodeStatus[node][0])
-            print("IDLE>", StationStatus.IDLE)
-            print("DETECT>", StationStatus.DETECTION)
-            print("BLOCK>", StationStatus.BLOCKED)
-            print("Here Test")
-            if self.station.nodeStatus[node][0] == StationStatus.IDLE:
-                print("IDLE>", StationStatus.IDLE)
+            if self.station.nodeStatus[node][0] == StationStatus.IDLE.value:
                 self.gui.station_buttons[node].configure(fg_color="#4169E1")
-            elif self.station.nodeStatus[node][0] == StationStatus.DETECTION:
-                print("DETECT>", StationStatus.DETECTION)
+            elif self.station.nodeStatus[node][0] == StationStatus.DETECTION.value:
                 self.gui.station_buttons[node].configure(fg_color="green")
-            elif self.station.nodeStatus[node][0] == StationStatus.BLOCKED:
-                print("BLOCK>", StationStatus.BLOCKED)
+            elif self.station.nodeStatus[node][0] == StationStatus.BLOCKED.value:
                 self.gui.station_buttons[node].configure(fg_color="red")
             else:
-                print("INACTIVE>", StationStatus.INACTIVE)
                 self.gui.station_buttons[node].configure(fg_color="gray")
 
     async def mainTask(self):
