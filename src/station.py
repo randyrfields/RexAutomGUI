@@ -28,7 +28,7 @@ class Station:
             self.nodeStatus.append(row)
 
     async def performScan(self):
-        for x in range(1, 8):
+        for x in range(1, 7):
             result = await self.serial.Poll(x, SysControlCommands.GETSTATUS)
             print("Res=", result)
             # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
