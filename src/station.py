@@ -29,6 +29,8 @@ class Station:
 
     async def performScan(self):
         for x in range(1, 8):
-            result = await self.serial.Poll(x, SysControlCommands.GETSTATUS.value)
+            cmd = SysControlCommands.GETSTATUS
+            print("cmd=", cmd.value)
+            result = await self.serial.Poll(x, cmd.value)
             # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
             self.nodeStatus[x] = list(result[2:8])
