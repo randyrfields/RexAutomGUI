@@ -21,18 +21,17 @@ class Station:
         self.serial = serialPolling("/dev/ttyS1", 115200, 1)
 
         # Create list for status storage
-        for i in range(1, 8):
+        for i in range(0, 8):
             row = []
             for j in range(8):
                 row.append(0)
             self.nodeStatus.append(row)
 
     async def performScan(self):
-        for x in range(1, 7):
+        for x in range(1, 8):
             result = await self.serial.Poll(x, SysControlCommands.GETSTATUS)
-            print("Res=", result)
             # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
             self.nodeStatus[x].insert(0, list(result[2:8]))
-            print(self.nodeStatus[x])
+            print("NS(X)=", self.nodeStatus[x])
             # self.nodeStatus.insert(x, list(result[2:8]))
             # print(self.nodeStatus)
