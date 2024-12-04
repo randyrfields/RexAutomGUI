@@ -31,5 +31,5 @@ class Station:
         for x in range(1, 8):
             result = await self.serial.Poll(x, SysControlCommands.GETSTATUS)
             # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
-            self.nodeStatus.insert(x, list(result[4:8]))
+            self.nodeStatus.insert(x, list(result[2:8]))
             # print(self.nodeStatus)

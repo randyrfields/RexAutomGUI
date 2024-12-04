@@ -211,7 +211,7 @@ class GUI(customtkinter.CTk):
         self.outer_frame = customtkinter.CTkFrame(self.station_frame)
         self.outer_frame.grid(row=1, column=2, padx=5, pady=5)
 
-        for x in range(number):
+        for x in range(0, number + 1):
             self.station_frame = customtkinter.CTkFrame(
                 self.outer_frame, border_color="black"
             )
@@ -219,7 +219,7 @@ class GUI(customtkinter.CTk):
             bgc = "#4169E1"
 
             self.station_frames.append(self.station_frame)
-            self.station_frames[x].grid(row=x + 1, padx=5, pady=5)
+            self.station_frames[x - 1].grid(row=x + 1, padx=5, pady=5)
             self.station_button.append(
                 customtkinter.CTkButton(
                     self.station_frames[x],

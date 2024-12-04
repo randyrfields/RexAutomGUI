@@ -1,6 +1,14 @@
 import threading
 import time
 import asyncio
+from enum import Enum
+
+
+class StationStatus(Enum):
+    INACTIVE = 0
+    IDLE = 1
+    DETECTION = 2
+    BLOCKED = 3
 
 
 class SystemController:
@@ -15,14 +23,24 @@ class SystemController:
     async def scanTask(self):
         await self.station.performScan()
 
+    def updateIcons(self):
+        for node in range(0, 7):
+            if self.station.nodeStatus[node][0] == StationStatus.IDLE:
+                self.gui.station_buttons[node].configure(fg_color="#4169E1")
+            elif self.station.nodeStatus[node][0] == StationStatus.DETECTION:
+                self.gui.station_buttons[node].configure(fg_color="green")
+            elif self.station.nodeStatus[node][0] == StationStatus.BLOCKED:
+                self.gui.station_buttons[node].configure(fg_color="red")
+            else:
+                self.gui.station_buttons[node].configure(fg_color="gray")
+
     async def mainTask(self):
         self.gui.showStation(7)
         while True:
             print("Main Thread")
-
             await self.scanTask()
-            for i in range(0, 7):
-                if self.station.nodeStatus[i][0] == 1:
-                    self.gui.station_buttons[i].configure(fg_color="green")
-                else:
-                    self.gui.station_buttons[i].configure(fg_color="#4169E1")
+            self.updateIcons()
+            self.station.nodeStatus[1][0] = StationStatus.IDLE
+            self.station.nodeStatus[2][0] = StationStatus.DETECTION
+            self.station.nodeStatus[3][0] = StationStatus.BLOCKED
+            self.station.nodeStatus[4][0] = StationStatus.INACTIVE
