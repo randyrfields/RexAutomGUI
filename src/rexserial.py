@@ -90,6 +90,7 @@ class serialPolling:
         value = bytes(cmd)
         print("V=", value)
         requestStatusPkt = self.PktEncode(value)
+        print("P=", requestStatusPkt)
         # Send packet
         await self.pollWriteController(requestStatusPkt)
         time.sleep(0.9)
