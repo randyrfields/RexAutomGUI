@@ -7,6 +7,7 @@ from PIL import Image
 from functools import partial
 from station import Station
 from system import SystemController
+from terminal import Terminal
 
 customtkinter.set_appearance_mode(
     "System"
@@ -25,6 +26,7 @@ class GUI(customtkinter.CTk):
         self.station_button = []
 
         # configure window
+        self.after(0, lambda: self.state("zoomed"))
         self.title("Rexair Automation Controller")
         self.geometry(f"{1100}x{580}")
 
@@ -33,7 +35,7 @@ class GUI(customtkinter.CTk):
         self.image = Image.open(self.logo_dir)
         ctk_image = customtkinter.CTkImage(light_image=self.image, size=(120, 75))
 
-        # configure grid layout (4x4)
+        # configure grid layout (4x8)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure((2, 3), weight=0)
         self.grid_rowconfigure((0, 1, 2), weight=1)
@@ -84,18 +86,18 @@ class GUI(customtkinter.CTk):
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self, placeholder_text="CTkEntry")
         self.entry.grid(
-            row=3, column=1, columnspan=1, padx=(20, 0), pady=(20, 20), sticky="nsew"
+            row=3, column=1, columnspan=1, padx=(20, 20), pady=(20, 20), sticky="nsew"
         )
 
-        self.main_button_1 = customtkinter.CTkButton(
-            master=self,
-            fg_color="transparent",
-            border_width=2,
-            text_color=("gray10", "#DCE4EE"),
-        )
-        self.main_button_1.grid(
-            row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew"
-        )
+        # self.main_button_1 = customtkinter.CTkButton(
+        #     master=self,
+        #     fg_color="transparent",
+        #     border_width=2,
+        #     text_color=("gray10", "#DCE4EE"),
+        # )
+        # self.main_button_1.grid(
+        #     row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew"
+        # )
 
         self.logo_frame = customtkinter.CTkFrame(
             self, width=150, fg_color="transparent", corner_radius=0
@@ -110,6 +112,7 @@ class GUI(customtkinter.CTk):
         # create textbox
         self.textbox = customtkinter.CTkTextbox(self, width=250)
         self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
+        self.terminal = Terminal(self.textbox)
 
         self.station_frame = customtkinter.CTkFrame(self, width=340, corner_radius=0)
         self.station_frame.grid(row=0, column=2, rowspan=4, sticky="nsew")
@@ -149,18 +152,16 @@ class GUI(customtkinter.CTk):
         )
         self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="nw")
 
-        # create slider and progressbar frame
-        self.slider_progressbar_frame = customtkinter.CTkFrame(
-            self, fg_color="transparent"
-        )
+        # create slider and progressbar frame , fg_color="transparent"
+        self.slider_progressbar_frame = customtkinter.CTkFrame(self)
         self.slider_progressbar_frame.grid(
-            row=1, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew"
+            row=3, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew"
         )
         self.slider_progressbar_frame.grid_columnconfigure(0, weight=1)
         self.slider_progressbar_frame.grid_rowconfigure(4, weight=1)
         self.progressbar_1 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
         self.progressbar_1.grid(
-            row=1, column=0, padx=(20, 10), pady=(10, 10), sticky="ew"
+            row=1, column=0, padx=(10, 10), pady=(10, 10), sticky="ew"
         )
 
         # create checkbox and switch frame
@@ -183,7 +184,7 @@ class GUI(customtkinter.CTk):
         self.progressbar_1.start()
         self.textbox.insert(
             "0.0",
-            "Rexair Automation\n\n" + "<Terminal for System Feedback>" * 1,
+            "Rexair Automation\n\n",
         )
 
     def open_input_dialog_event(self):
@@ -224,7 +225,7 @@ class GUI(customtkinter.CTk):
                 customtkinter.CTkButton(
                     self.station_frames[x],
                     text=f"Station {x+1}",
-                    command=partial(self.button_click, x),
+                    command=partial(self.station_button_click, x),
                     width=200,
                     height=90,
                     fg_color=bgc,
@@ -236,8 +237,16 @@ class GUI(customtkinter.CTk):
     def clearStations(self):
         self.outer_frame.grid_forget()
 
-    def button_click(self, index):
+    def station_button_click(self, index):
         print(f"Button Click = {index}")
+        self.terminal.clearTerminal()
+        # self.textbox.delete("0.0", "end")
+        # self.textbox.insert("0.0", "\n\n\n\n\n\n\n\n\n\n")
+        # self.textbox.insert(
+        #     "0.0",
+        #     "Station " + str(index + 1) + " Profile:",
+        # )
+        # self.textbox.insert("2.0", "Status: Inactive")
 
 
 if __name__ == "__main__":
