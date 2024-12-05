@@ -26,7 +26,8 @@ class GUI(customtkinter.CTk):
         self.station_button = []
 
         # configure window
-        self.after(0, lambda: self.state("zoomed"))
+        # self.after(0, lambda: self.state("zoomed"))
+        self.after(0, lambda: self.attributes("-zoomed", True))
         self.title("Rexair Automation Controller")
         self.geometry(f"{1100}x{580}")
 
