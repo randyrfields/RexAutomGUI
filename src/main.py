@@ -251,7 +251,7 @@ class GUI(customtkinter.CTk):
     def station_button_click(self, index):
         print(f"Button Click = {index}")
         self.terminal.clearTerminal()
-        self.displaySensor.showSensorMatrix()
+        self.displaySensor.showSensorMatrix(index + 1)
         # self.textbox.delete("0.0", "end")
         # self.textbox.insert("0.0", "\n\n\n\n\n\n\n\n\n\n")
         # self.textbox.insert(

@@ -28,14 +28,20 @@ class SystemController:
         detect = StationStatus.DETECTION
         block = StationStatus.BLOCKED
         for node in range(0, 7):
-            if self.station.nodeStatus[node][0] == idle.value:
-                self.gui.station_buttons[node].configure(fg_color="#4169E1")
-            elif self.station.nodeStatus[node][0] == detect.value:
-                self.gui.station_buttons[node].configure(fg_color="green")
-            elif self.station.nodeStatus[node][0] == block.value:
-                self.gui.station_buttons[node].configure(fg_color="red")
+            status = self.station.nodeStatus[node][0]
+            blocked = self.station.nodeStatus[node][5]
+            if status == idle.value:
+                color = "#4169E1"
+                if blocked != False:
+                    color = "red"
+            elif status == detect.value:
+                color = "green"
+            elif status == block.value:
+                color = "red"
             else:
-                self.gui.station_buttons[node].configure(fg_color="gray")
+                color = "gray"
+
+            self.gui.station_buttons[node].configure(fg_color=color)
 
     async def mainTask(self):
         self.gui.showStation(7)

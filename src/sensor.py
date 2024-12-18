@@ -34,7 +34,7 @@ class sensorWindow:
             relief="raised",
             # borderwidth=2,
             highlightthickness=0,
-            bg="lightblue",
+            bg="white",
         )
         self.canvas.pack(fill="both", expand=True)
 
@@ -63,7 +63,7 @@ class sensorWindow:
                                     color = "white"
         return color
 
-    def showSensorMatrix(self):
+    def showSensorMatrix(self, stationNumber):
 
         self.canvas.delete("all")
         self.canvas.update_idletasks()
@@ -71,6 +71,10 @@ class sensorWindow:
         canheight = self.canvas.winfo_height()
         offsetx = canwidth / 2 - 120
         offsety = canheight / 2 - 120
+        stationText = f"Station {stationNumber}"
+        self.canvas.create_text(
+            (canwidth / 2), 25, text=stationText, font=("Arial", 20, "bold")
+        )
         self.rect = {}
         self.oval = {}
         self.cellwidth = 60
@@ -85,7 +89,7 @@ class sensorWindow:
                 x2 += offsetx
                 y1 += offsety
                 y2 += offsety
-                color = "lightgreen"
+                color = "#C6C0B9"
 
                 self.rect[row, column] = self.canvas.create_rectangle(
                     x1, y1, x2, y2, fill=color, tags="rect"
