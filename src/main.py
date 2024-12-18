@@ -2,12 +2,14 @@ import tkinter
 import tkinter.messagebox
 import customtkinter
 import os
+import platform
 from pathlib import Path
 from PIL import Image
 from functools import partial
 from station import Station
 from system import SystemController
 from terminal import Terminal
+from sensor import sensorWindow
 
 customtkinter.set_appearance_mode(
     "System"
@@ -26,8 +28,12 @@ class GUI(customtkinter.CTk):
         self.station_button = []
 
         # configure window
-        # self.after(0, lambda: self.state("zoomed"))
-        self.after(0, lambda: self.attributes("-zoomed", True))
+        self.os = platform.system()
+        if self.os == "Windows":
+            self.after(0, lambda: self.state("zoomed"))
+        else:
+            self.after(0, lambda: self.attributes("-zoomed", True))
+
         self.title("Rexair Automation Controller")
         self.geometry(f"{1100}x{580}")
 
@@ -85,7 +91,7 @@ class GUI(customtkinter.CTk):
         self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(10, 20))
 
         # create main entry and button
-        self.entry = customtkinter.CTkEntry(self, placeholder_text="CTkEntry")
+        self.entry = customtkinter.CTkEntry(self, placeholder_text="> ")
         self.entry.grid(
             row=3, column=1, columnspan=1, padx=(20, 20), pady=(20, 20), sticky="nsew"
         )
@@ -112,8 +118,12 @@ class GUI(customtkinter.CTk):
 
         # create textbox
         self.textbox = customtkinter.CTkTextbox(self, width=250)
-        self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
+        self.textbox.grid(row=0, column=1, padx=(20), pady=(20), sticky="nsew")
         self.terminal = Terminal(self.textbox)
+
+        self.displayBox = customtkinter.CTkFrame(self, fg_color="lightblue")
+        self.displayBox.grid(row=1, column=1, padx=20, pady=20, sticky="nsew")
+        self.displaySensor = sensorWindow(self.displayBox)
 
         self.station_frame = customtkinter.CTkFrame(self, width=340, corner_radius=0)
         self.station_frame.grid(row=0, column=2, rowspan=4, sticky="nsew")
@@ -241,6 +251,7 @@ class GUI(customtkinter.CTk):
     def station_button_click(self, index):
         print(f"Button Click = {index}")
         self.terminal.clearTerminal()
+        self.displaySensor.showSensorMatrix()
         # self.textbox.delete("0.0", "end")
         # self.textbox.insert("0.0", "\n\n\n\n\n\n\n\n\n\n")
         # self.textbox.insert(
