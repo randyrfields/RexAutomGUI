@@ -33,3 +33,4 @@ class Station:
             result = await self.serial.Poll(x, cmd.value)
             # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
             self.nodeStatus[x - 1] = list(result[2:8])
+            self.mainWindow.pollingData = self.nodeStatus

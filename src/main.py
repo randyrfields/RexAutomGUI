@@ -20,6 +20,9 @@ customtkinter.set_default_color_theme(
 
 
 class GUI(customtkinter.CTk):
+
+    pollingData = []
+
     def __init__(self):
         super().__init__()
 
@@ -252,13 +255,11 @@ class GUI(customtkinter.CTk):
         print(f"Button Click = {index}")
         self.terminal.clearTerminal()
         self.displaySensor.showSensorMatrix(index + 1)
-        # self.textbox.delete("0.0", "end")
-        # self.textbox.insert("0.0", "\n\n\n\n\n\n\n\n\n\n")
-        # self.textbox.insert(
-        #     "0.0",
-        #     "Station " + str(index + 1) + " Profile:",
-        # )
-        # self.textbox.insert("2.0", "Status: Inactive")
+        self.textbox.insert(
+            "0.0",
+            # "Station " + str(index + 1) + " Profile:",
+            self.pollingData,
+        )
 
 
 if __name__ == "__main__":
