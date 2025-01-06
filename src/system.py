@@ -12,6 +12,9 @@ class StationStatus(Enum):
 
 
 class SystemController:
+
+    Update = 0
+
     def __init__(self, gui, station):
         self.station = station
         self.gui = gui
@@ -49,3 +52,7 @@ class SystemController:
             print("Main Thread")
             await self.scanTask()
             self.updateIcons()
+            self.Update += 1
+            if (self.gui.currentButton > 0) and (self.Update > 10):
+                self.Update = 0
+                self.gui.showLiveStation()

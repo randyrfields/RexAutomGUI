@@ -3,6 +3,8 @@ import tkinter.messagebox
 import customtkinter
 import os
 import platform
+import threading
+import time
 from pathlib import Path
 from PIL import Image
 from functools import partial
@@ -22,6 +24,7 @@ customtkinter.set_default_color_theme(
 class GUI(customtkinter.CTk):
 
     pollingData = []
+    currentButton = 0
 
     def __init__(self):
         super().__init__()
@@ -251,15 +254,18 @@ class GUI(customtkinter.CTk):
     def clearStations(self):
         self.outer_frame.grid_forget()
 
+    def showLiveStation(self):
+        self.terminal.clearTerminal()
+        self.displaySensor.showSensorMatrix(self.currentButton, self.pollingData)
+
     def station_button_click(self, index):
         print(f"Button Click = {index}")
-        self.terminal.clearTerminal()
-        self.displaySensor.showSensorMatrix(index + 1)
-        self.textbox.insert(
-            "0.0",
-            # "Station " + str(index + 1) + " Profile:",
-            self.pollingData,
-        )
+        self.currentButton = index + 1
+        # self.textbox.insert(
+        #     "0.0",
+        #     # "Station " + str(index + 1) + " Profile:",
+        #     self.pollingData,
+        # )
 
 
 if __name__ == "__main__":

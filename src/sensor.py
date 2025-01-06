@@ -4,29 +4,6 @@ from station import *
 
 class sensorWindow:
 
-    dummyData = [
-        20,
-        20,
-        20,
-        20,
-        90,
-        90,
-        90,
-        90,
-        130,
-        130,
-        130,
-        130,
-        190,
-        190,
-        190,
-        190,
-        230,
-        230,
-        230,
-        230,
-    ]
-
     def __init__(self, displayBox):
         self.sensorWin = displayBox
         self.canvas = customtkinter.CTkCanvas(
@@ -42,28 +19,28 @@ class sensorWindow:
         if distanceData > 300:
             color = "#EE82EE"  # violet
         else:
-            if distanceData > 260:
+            if distanceData > 1000:
                 color = "#4B0082"  # indigo
             else:
-                if distanceData > 220:
+                if distanceData > 300:
                     color = "blue"
                 else:
-                    if distanceData > 180:
+                    if distanceData > 250:
                         color = "green"
                     else:
-                        if distanceData > 120:
+                        if distanceData > 200:
                             color = "yellow"
                         else:
-                            if distanceData > 80:
+                            if distanceData > 100:
                                 color = "orange"
                             else:
-                                if distanceData > 40:
+                                if distanceData > 50:
                                     color = "red"
                                 else:
                                     color = "white"
         return color
 
-    def showSensorMatrix(self, stationNumber):
+    def showSensorMatrix(self, stationNumber, liveData):
 
         self.canvas.delete("all")
         self.canvas.update_idletasks()
@@ -95,7 +72,7 @@ class sensorWindow:
                     x1, y1, x2, y2, fill=color, tags="rect"
                 )
                 fillcolor = self.calculateColor(
-                    self.dummyData[15 - ((row * 4) + column)]
+                    liveData[15 - ((row * 4) + column)]
                 )  # "#EE82EE"
                 self.oval[row, column] = self.canvas.create_oval(
                     x1 + 2, y1 + 2, x2 - 2, y2 - 2, fill=fillcolor, tags="oval"
