@@ -3,9 +3,9 @@ import time
 
 
 # Configure the serial port
-port = "/dev/ttyS1"  # Replace with your serial port
-baudrate = 115200  # Replace with your baud rate
-timeout = 1  # Timeout for read operations in seconds
+port = "/dev/ttyS1"  # Serial Port Number
+baudrate = 115200  # Baud rate
+timeout = 1  # Timeout in seconds for read operations
 
 
 class serialPolling:
