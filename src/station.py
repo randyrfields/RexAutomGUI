@@ -23,7 +23,7 @@ class Station:
         # Create list for status storage
         for i in range(0, 8):
             row = []
-            for j in range(6):
+            for j in range(48):
                 row.append(0)
             self.nodeStatus.append(row)
 
@@ -31,7 +31,6 @@ class Station:
         for x in range(1, 8):
             cmd = SysControlCommands.GETSTATUS
             result = await self.serial.Poll(x, cmd.value)
-            # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00])
+            # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x01]) + bytes([0x00] * 27)
             self.nodeStatus[x - 1] = list(result[4:37])
-            print(self.nodeStatus[x - 1])
             self.mainWindow.pollingData = self.nodeStatus[x - 1]
