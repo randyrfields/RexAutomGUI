@@ -48,7 +48,7 @@ class sensorWindow:
         canheight = self.canvas.winfo_height()
         offsetx = canwidth / 2 - 120
         offsety = canheight / 2 - 120
-        stationText = f"Station {stationNumber}"
+        stationText = f"Station {stationNumber+1}"
         self.canvas.create_text(
             (canwidth / 2), 25, text=stationText, font=("Arial", 20, "bold")
         )

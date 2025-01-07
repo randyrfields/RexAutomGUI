@@ -23,7 +23,7 @@ customtkinter.set_default_color_theme(
 
 class GUI(customtkinter.CTk):
 
-    pollingData = []
+    TOFData = []
     currentButton = 0
 
     def __init__(self):
@@ -32,6 +32,8 @@ class GUI(customtkinter.CTk):
         self.station_frames = []
         self.station_buttons = []
         self.station_button = []
+
+        self.TOFData = [[0] * 32 for x in range(8)]
 
         # configure window
         self.os = platform.system()
@@ -256,15 +258,17 @@ class GUI(customtkinter.CTk):
 
     def showLiveStation(self):
         self.terminal.clearTerminal()
-        self.displaySensor.showSensorMatrix(self.currentButton, self.pollingData)
+        self.displaySensor.showSensorMatrix(
+            self.currentButton, self.TOFData[self.currentButton]
+        )
 
     def station_button_click(self, index):
         print(f"Button Click = {index}")
-        self.currentButton = index + 1
+        self.currentButton = index
         # self.textbox.insert(
         #     "0.0",
         #     # "Station " + str(index + 1) + " Profile:",
-        #     self.pollingData,
+        #     self.TOFData,
         # )
 
 

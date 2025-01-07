@@ -31,6 +31,10 @@ class Station:
         for x in range(1, 8):
             cmd = SysControlCommands.GETSTATUS
             result = await self.serial.Poll(x, cmd.value)
-            # result = bytes([0xA7, 0x08, 0x01, 0x01, 0x01]) + bytes([0x00] * 27)
-            self.nodeStatus[x - 1] = list(result[4:37])
-            self.mainWindow.pollingData = self.nodeStatus[x - 1]
+            # result = bytes([0xA7, 0x29, 0x01, 0x0A, 0x00]) + bytes([0x00] * 27)
+            if result[3] == 0x05:
+                self.nodeStatus[x - 1] = list(result[2:8])
+            else:
+                self.nodeStatus[x - 1] = list(result[2:5])
+                # self.mainWindow.TOFData.append(list(result[5:37]))
+                self.mainWindow.TOFData[x - 1] = list(result[5:37])
