@@ -36,7 +36,7 @@ class SystemController:
     #  * [6] 0xel, el = Emitter light state: True = on
     #  * [7] 0xrb, rb = Receiver Blocked: True = blocked
     #  * For TOF type configuration:
-    #  * [5:36] TOF data
+    #  * [5:37] TOF data
 
     def updateIcons(self):
         idle = StationStatus.IDLE
