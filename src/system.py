@@ -61,7 +61,7 @@ class SystemController:
     async def mainTask(self):
         self.gui.showStation(7)
         while True:
-            print("Main Thread")
+            # print("Main Thread")
             await self.scanTask()
             self.updateIcons()
             self.Update += 1

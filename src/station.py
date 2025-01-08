@@ -38,3 +38,4 @@ class Station:
                 self.nodeStatus[x - 1] = list(result[2:5])
                 # self.mainWindow.TOFData.append(list(result[5:37]))
                 self.mainWindow.TOFData[x - 1] = list(result[5:37])
+                print(self.mainWindow.TOFData[x - 1])
