@@ -39,7 +39,7 @@ class Station:
             else:
                 self.nodeStatus[x - 1] = list(result[2:5])
                 # self.mainWindow.TOFData.append(list(result[5:37]))
-                rawData.append(list(result[5:37]))
+                rawData = result[5:37]
                 formatString = "<H"
                 self.mainWindow.TOFData[x - 1] = [
                     struct.unpack(formatString, rawData[i : i + 2])[0]
