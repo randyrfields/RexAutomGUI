@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter
 import time
+import struct
 from rexserial import serialPolling
 from enum import Enum
 
@@ -28,6 +29,7 @@ class Station:
             self.nodeStatus.append(row)
 
     async def performScan(self):
+        rawData = []
         for x in range(1, 8):
             cmd = SysControlCommands.GETSTATUS
             result = await self.serial.Poll(x, cmd.value)
@@ -37,5 +39,11 @@ class Station:
             else:
                 self.nodeStatus[x - 1] = list(result[2:5])
                 # self.mainWindow.TOFData.append(list(result[5:37]))
-                self.mainWindow.TOFData[x - 1] = list(result[5:37])
-                print(self.mainWindow.TOFData[x - 1])
+                rawData.append(list(result[5:37]))
+                formatString = "<H"
+                self.mainWindow.TOFData[x - 1] = [
+                    struct.unpack(formatString, rawData[i : i + 2])[0]
+                    for i in range(0, 32, 2)
+                ]
+                # self.mainWindow.TOFData[x - 1] = list(result[5:37])
+                print(hex(self.mainWindow.TOFData[x - 1]))
