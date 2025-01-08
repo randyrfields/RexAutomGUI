@@ -33,7 +33,7 @@ class GUI(customtkinter.CTk):
         self.station_buttons = []
         self.station_button = []
 
-        self.TOFData = [[0] * 32 for x in range(8)]
+        self.TOFData = [[0] * 16 for x in range(8)]
 
         # configure window
         self.os = platform.system()

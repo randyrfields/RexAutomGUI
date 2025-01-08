@@ -46,4 +46,4 @@ class Station:
                     for i in range(0, 32, 2)
                 ]
                 # self.mainWindow.TOFData[x - 1] = list(result[5:37])
-                print(hex(self.mainWindow.TOFData[x - 1]))
+                print(self.mainWindow.TOFData[x - 1])
