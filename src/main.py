@@ -262,7 +262,7 @@ class GUI(customtkinter.CTk):
             self.currentButton, self.TOFData[self.currentButton]
         )
 
-    def clearSensorMatrix(self):
+    def clearLiveStation(self):
         self.displaySensor.clear()
 
     def station_button_click(self, index):
