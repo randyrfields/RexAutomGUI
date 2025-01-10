@@ -65,6 +65,6 @@ class SystemController:
             await self.scanTask()
             self.updateIcons()
             self.Update += 1
-            if (self.gui.currentButton < 8) and (self.Update > 2):
+            if self.gui.currentButton < 8:  # and (self.Update > 2)
                 self.Update = 0
                 self.gui.showLiveStation()
