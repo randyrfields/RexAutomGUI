@@ -52,19 +52,22 @@ class SystemController:
                 if blocked != False:
                     color = "red"
             elif status == detect.value:
+                self.gui.currentButton = node
                 color = "green"
             else:
                 color = "gray"
 
             self.gui.station_buttons[node].configure(fg_color=color)
 
+        return blocked
+
     async def mainTask(self):
         self.gui.showStation(7)
         while True:
             # print("Main Thread")
             await self.scanTask()
-            self.updateIcons()
+            status = self.updateIcons()
             self.Update += 1
             if self.gui.currentButton < 8:  # and (self.Update > 2)
                 self.Update = 0
-                self.gui.showLiveStation()
+                self.gui.showLiveStation(status)
