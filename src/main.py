@@ -256,11 +256,14 @@ class GUI(customtkinter.CTk):
     def clearStations(self):
         self.outer_frame.grid_forget()
 
-    def showLiveStation(self, blockedstatus):
+    def showLiveStation(self):
         self.terminal.clearTerminal()
         self.displaySensor.showSensorMatrix(
-            self.currentButton, self.TOFData[self.currentButton], blockedstatus
+            self.currentButton, self.TOFData[self.currentButton]
         )
+
+    def clearSensorMatrix(self):
+        self.displaySensor.clear()
 
     def station_button_click(self, index):
         print(f"Button Click = {index}")

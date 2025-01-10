@@ -40,11 +40,12 @@ class sensorWindow:
                                     color = "white"
         return color
 
-    def showSensorMatrix(self, stationNumber, liveData, blockedstatus):
+    def clear(self):
+        self.canvas.delete("all")
+
+    def showSensorMatrix(self, stationNumber, liveData):
 
         self.canvas.delete("all")
-        if blockedstatus == False:
-            return
         self.canvas.update_idletasks()
         canwidth = self.canvas.winfo_width()
         canheight = self.canvas.winfo_height()

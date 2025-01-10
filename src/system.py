@@ -43,6 +43,7 @@ class SystemController:
         detect = StationStatus.DETECTION
         block = StationStatus.BLOCKED
         blocked = False
+        self.gui.currentButton = 15
         for node in range(0, 7):
             status = self.station.nodeStatus[node][0]
             if self.station.nodeStatus[node][2]:
@@ -53,21 +54,24 @@ class SystemController:
                     color = "red"
             elif status == detect.value:
                 self.gui.currentButton = node
+                print("ActiveNode=", node)
                 color = "green"
             else:
                 color = "gray"
 
             self.gui.station_buttons[node].configure(fg_color=color)
 
-        return blocked
+        return
 
     async def mainTask(self):
         self.gui.showStation(7)
         while True:
             # print("Main Thread")
             await self.scanTask()
-            status = self.updateIcons()
+            self.updateIcons()
             self.Update += 1
-            if self.gui.currentButton < 8:  # and (self.Update > 2)
+            if self.gui.currentButton < 8:
                 self.Update = 0
-                self.gui.showLiveStation(status)
+                self.gui.showLiveStation()
+            else:
+                self.gui.clearLiveStation()
