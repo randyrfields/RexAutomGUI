@@ -38,6 +38,8 @@ class Station:
             except:
                 result = bytes([0xA7, 0x29, 0x01, 0x0A, 0x00]) + bytes([0x00] * 32)
 
+            self.mainWindow.stationType[x] = result[3]
+
             if result[3] == 0x05:
                 self.nodeStatus[x - 1] = list(result[2:8])
             else:
@@ -50,4 +52,4 @@ class Station:
                     for i in range(0, 32, 2)
                 ]
                 # self.mainWindow.TOFData[x - 1] = list(result[5:37])
-                print(self.mainWindow.TOFData[x - 1])
+                # print(self.mainWindow.TOFData[x - 1])

@@ -25,6 +25,7 @@ class GUI(customtkinter.CTk):
 
     TOFData = []
     currentButton = 0
+    stationType = []
 
     def __init__(self):
         super().__init__()
@@ -258,9 +259,10 @@ class GUI(customtkinter.CTk):
 
     def showLiveStation(self):
         self.terminal.clearTerminal()
-        self.displaySensor.showSensorMatrix(
-            self.currentButton, self.TOFData[self.currentButton]
-        )
+        if self.stationType[self.currentButton] == 0x0A:
+            self.displaySensor.showSensorMatrix(
+                self.currentButton, self.TOFData[self.currentButton]
+            )
 
     def showText(self, text):
         self.terminal.addTextTerminal(text)
