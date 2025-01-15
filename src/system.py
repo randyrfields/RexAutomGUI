@@ -48,6 +48,8 @@ class SystemController:
             status = self.station.nodeStatus[node][0]
             if self.station.nodeStatus[node][2]:
                 blocked = True
+            else:
+                blocked = False
             if status == idle.value:
                 color = "#4169E1"
                 if blocked != False:
