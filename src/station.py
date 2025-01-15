@@ -38,7 +38,7 @@ class Station:
             except:
                 result = bytes([0xA7, 0x29, 0x01, 0x0A, 0x00]) + bytes([0x00] * 32)
 
-            self.mainWindow.stationType[x] = result[3]
+                self.mainWindow.stationType.insert(x) = 0x05
 
             if result[3] == 0x05:
                 self.nodeStatus[x - 1] = list(result[2:8])
