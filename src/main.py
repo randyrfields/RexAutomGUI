@@ -262,6 +262,9 @@ class GUI(customtkinter.CTk):
             self.currentButton, self.TOFData[self.currentButton]
         )
 
+    def showText(self, text):
+        self.terminal.addTextTerminal(text)
+
     def clearLiveStation(self):
         self.displaySensor.clear()
 

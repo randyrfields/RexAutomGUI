@@ -12,4 +12,4 @@ class Terminal:
         self.mainTextBox.insert("0.0", "")
 
     def addTextTerminal(self, text):
-        self.mainTextBox.insert("0.0", " ")
+        self.mainTextBox.insert("0.0", text)
