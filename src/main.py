@@ -69,8 +69,8 @@ class GUI(customtkinter.CTk):
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.sidebar_button_1 = customtkinter.CTkButton(
             self.sidebar_frame,
-            command=partial(self.sidebar_button_event, "Scan"),
-            text="Scan",
+            command=partial(self.sidebar_button_event, "Reset"),
+            text="Reset",
         )
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.sidebar_button_2 = customtkinter.CTkButton(
@@ -222,8 +222,9 @@ class GUI(customtkinter.CTk):
         customtkinter.set_widget_scaling(new_scaling_float)
 
     def sidebar_button_event(self, value):
-        if value == "Scan":
-            print("Scan Button click")
+        if value == "Reset":
+            print("Reset Button click")
+            self.resetStations()
         else:
             print("Clear Button click")
             self.clearStations()
