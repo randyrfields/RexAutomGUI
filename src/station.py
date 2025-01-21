@@ -53,17 +53,20 @@ class Station:
                 # self.mainWindow.TOFData[x - 1] = list(result[5:37])
                 # print(self.mainWindow.TOFData[x - 1])
 
-    async def resetStations(self, node):
+    async def resetStations(self):
         cmd = SysControlCommands.RESETSTATIONS
 
         try:
+            node = 0x0F
             result = await self.serial.Poll(node, cmd.value)
         except:
             result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
 
         if result[3] == 0xAA:
             # print Success message
-            self.mainWindow.terminal.addTextTerminal("System function reset success.")
+            self.mainWindow.terminal.addTextTerminal(
+                "System function reset success.\n\r"
+            )
         else:
             # print Failed message
-            self.mainWindow.terminal.addTextTerminal("System function reset fail.")
+            self.mainWindow.terminal.addTextTerminal("System function reset fail.\n\r")

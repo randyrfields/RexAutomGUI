@@ -26,6 +26,7 @@ class GUI(customtkinter.CTk):
     TOFData = []
     currentButton = 0
     stationType = []
+    sysController = 0
 
     def __init__(self):
         super().__init__()
@@ -224,7 +225,7 @@ class GUI(customtkinter.CTk):
     def sidebar_button_event(self, value):
         if value == "Reset":
             print("Reset Button click")
-            self.resetStations()
+            self.sysController.stationReset = True
         else:
             print("Clear Button click")
             self.clearStations()
@@ -282,9 +283,13 @@ class GUI(customtkinter.CTk):
         #     self.TOFData,
         # )
 
+    def setSysController(self, sys):
+        self.sysController = sys
+
 
 if __name__ == "__main__":
     gui = GUI()
     station = Station(gui)
     sys = SystemController(gui, station)
+    gui.setSysController(sys)
     gui.mainloop()
