@@ -82,7 +82,7 @@ class SystemController:
         Count = 0
         self.gui.showStation(7)
         while True:
-            if False:
+            if True:
                 # print("Main Thread")
                 await self.scanTask()
                 self.updateIcons()
