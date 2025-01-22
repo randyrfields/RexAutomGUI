@@ -79,6 +79,7 @@ class SystemController:
 
     async def mainTask(self):
         data = [0 * 16]
+        Count = 0
         self.gui.showStation(7)
         while True:
             if False:
@@ -95,6 +96,8 @@ class SystemController:
                 data = await self.scanDiags()
                 print(chr(27) + "[2J")
                 print(data)
+                print(Count)
+                Count += 1
                 print("Node:  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15")
                 # print("       0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0")
                 print("     ", end=" ")
