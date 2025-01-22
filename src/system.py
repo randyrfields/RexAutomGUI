@@ -24,6 +24,12 @@ class SystemController:
         )
         mainThread.start()
 
+    async def scanDiags(self):
+        result = 0
+        if self.diagScanResults:
+            await result = self.station.scanResults()
+            return result
+
     async def scanTask(self):
         if self.stationReset:
             await self.station.resetStations()
@@ -71,14 +77,26 @@ class SystemController:
         return
 
     async def mainTask(self):
+        data = [0 * 16]
         self.gui.showStation(7)
         while True:
-            # print("Main Thread")
-            await self.scanTask()
-            self.updateIcons()
-            self.Update += 1
-            if self.gui.currentButton < 8:
-                self.Update = 0
-                self.gui.showLiveStation()
+            if False:
+                # print("Main Thread")
+                await self.scanTask()
+                self.updateIcons()
+                self.Update += 1
+                if self.gui.currentButton < 8:
+                    self.Update = 0
+                    self.gui.showLiveStation()
+                else:
+                    self.gui.clearLiveStation()
             else:
-                self.gui.clearLiveStation()
+                await data = self.scanDiags()
+                print(chr(27) + "[2J")
+                print("Node:  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15")
+                # print("       0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0")
+                print("     ", end=" ")
+                for i in range(16):
+                    # data.append(i)
+                    print(f"{data[i]:2d}", end=" ")
+                time.sleep(1)
