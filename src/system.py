@@ -104,4 +104,5 @@ class SystemController:
                 for i in range(16):
                     # data.append(i)
                     print(f"{data[i]:2d}", end=" ")
+                print("-----------------")
                 time.sleep(1)
