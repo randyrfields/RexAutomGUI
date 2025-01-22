@@ -27,7 +27,7 @@ class SystemController:
     async def scanDiags(self):
         result = 0
         if self.diagScanResults:
-            await result = self.station.scanResults()
+            result = await self.station.scanResults()
             return result
 
     async def scanTask(self):
