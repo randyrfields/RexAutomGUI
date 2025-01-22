@@ -15,6 +15,7 @@ class SystemController:
 
     Update = 0
     stationReset = False
+    diagScanResults = True
 
     def __init__(self, gui, station):
         self.station = station

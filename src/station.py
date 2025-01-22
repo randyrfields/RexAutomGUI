@@ -8,6 +8,7 @@ class SysControlCommands(Enum):
     NOP = 0
     GETSTATUS = 1
     RESETSTATIONS = 15
+    SCANRESULTS = 16
 
 
 class Station:
@@ -70,3 +71,14 @@ class Station:
         else:
             # print Failed message
             self.mainWindow.terminal.addTextTerminal("System function reset fail.\n\r")
+
+    async def scanResults(self):
+        cmd = SysControlCommands.SCANRESULTS
+
+        try:
+            node = 0x0F
+            result = await self.serial.Poll(node, cmd.value)
+        except:
+            result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
+
+        return result
