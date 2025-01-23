@@ -82,7 +82,7 @@ class SystemController:
         Count = 0
         self.gui.showStation(7)
         while True:
-            if True:
+            if self.gui.getRadioButtonStatus() == "1":
                 # print("Main Thread")
                 await self.scanTask()
                 self.updateIcons()

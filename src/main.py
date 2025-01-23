@@ -27,6 +27,7 @@ class GUI(customtkinter.CTk):
     currentButton = 0
     stationType = []
     sysController = 0
+    radio_var = 0
 
     def __init__(self):
         super().__init__()
@@ -159,18 +160,21 @@ class GUI(customtkinter.CTk):
         self.label_radio_group.grid(
             row=0, column=2, columnspan=1, padx=10, pady=10, sticky=""
         )
+
+        self.radio_var = customtkinter.StringVar(value="1")
         self.radio_button_1 = customtkinter.CTkRadioButton(
             master=self.radiobutton_frame,
             variable=self.radio_var,
-            value=0,
+            value="1",
             text="Polling Mode",
         )
         self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="nw")
+
         self.radio_button_2 = customtkinter.CTkRadioButton(
             master=self.radiobutton_frame,
             variable=self.radio_var,
-            value=1,
-            text="Learn Mode",
+            value="2",
+            text="Diagnostics",
         )
         self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="nw")
 
@@ -285,6 +289,9 @@ class GUI(customtkinter.CTk):
 
     def setSysController(self, sys):
         self.sysController = sys
+
+    def getRadioButtonStatus(self):
+        return self.radio_var.get()
 
 
 if __name__ == "__main__":
