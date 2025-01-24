@@ -68,7 +68,6 @@ class SystemController:
                     color = "red"
             elif status == detect.value:
                 self.gui.currentButton = node
-                print("ActiveNode=", node)
                 color = "green"
             else:
                 color = "gray"
@@ -87,6 +86,8 @@ class SystemController:
                 await self.scanTask()
                 self.updateIcons()
                 self.Update += 1
+                print("curButton = ", self.gui.currentButton)
+                print(self.station.nodeStatus[0])
                 nodeType = self.station.nodeStatus[self.gui.currentButton][3]
                 if nodeType == 0x0A:
                     self.Update = 0
