@@ -89,7 +89,7 @@ class SystemController:
                 if self.gui.currentButton < 8:
                     print("curButton = ", self.gui.currentButton)
                     print(self.station.nodeStatus[0])
-                    print(len(self.station.nodeStatus))
+                    print(len(self.station.nodeStatus[self.gui.currentButton]))
                     nodeType = self.station.nodeStatus[self.gui.currentButton][3]
                     if nodeType == 0x0A:
                         self.Update = 0
