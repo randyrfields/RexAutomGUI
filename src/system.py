@@ -87,7 +87,8 @@ class SystemController:
                 await self.scanTask()
                 self.updateIcons()
                 self.Update += 1
-                if self.gui.currentButton < 8:
+                nodeType = self.station.nodeStatus[self.gui.currentButton][3]
+                if nodeType == 0x0A:
                     self.Update = 0
                     self.gui.showLiveStation()
                 else:

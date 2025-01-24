@@ -281,11 +281,6 @@ class GUI(customtkinter.CTk):
     def station_button_click(self, index):
         print(f"Button Click = {index}")
         self.currentButton = index
-        # self.textbox.insert(
-        #     "0.0",
-        #     # "Station " + str(index + 1) + " Profile:",
-        #     self.TOFData,
-        # )
 
     def setSysController(self, sys):
         self.sysController = sys
