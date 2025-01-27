@@ -111,8 +111,11 @@ class SystemController:
                 print(chr(27) + "[2J")
                 print("Node:  0  1  2  3  4  5  6  7")
                 print("     ", end=" ")
-                for i in range(3, 11):
-                    print(f"{data[i]:2d}", end=" ")
+                try:
+                    for i in range(3, 11):
+                        print(f"{data[i]:2d}", end=" ")
+                except:
+                    print("Data error")
                 print("curButton, NdType=", self.gui.currentButton, nodeType)
                 print(" ")
                 time.sleep(1)
