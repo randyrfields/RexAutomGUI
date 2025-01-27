@@ -57,8 +57,8 @@ class SystemController:
         blocked = False
         self.gui.currentButton = 15
         for node in range(0, 7):
-            status = self.station.nodeStatus[node][0]
-            if self.station.nodeStatus[node][2]:
+            status = self.station.nodeStatus[node][2]
+            if self.station.nodeStatus[node][4]:
                 blocked = True
             else:
                 blocked = False

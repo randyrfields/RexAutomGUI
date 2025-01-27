@@ -41,9 +41,9 @@ class Station:
                 self.mainWindow.stationType.insert(x, result[3])
 
             if result[3] == 0x05:
-                self.nodeStatus[x - 1] = list(result[2:8])
+                self.nodeStatus[x - 1] = list(result[0:8])
             else:
-                self.nodeStatus[x - 1] = list(result[2:5])
+                self.nodeStatus[x - 1] = list(result[0:5])
                 # self.mainWindow.TOFData.append(list(result[5:37]))
                 rawData = result[5:37]
                 formatString = "<H"
