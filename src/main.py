@@ -278,7 +278,7 @@ class GUI(customtkinter.CTk):
         self.displaySensor.clear()
 
     def station_button_click(self, index):
-        print("Button Click")
+        print("Button Click ", self.radio_var)
         if self.radio_var == "2":
             print(f"Button Click = {index}")
             self.currentButton = index
