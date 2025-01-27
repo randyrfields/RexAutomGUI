@@ -266,8 +266,7 @@ class GUI(customtkinter.CTk):
 
     def showLiveStation(self):
         self.terminal.clearTerminal()
-        print("ST=", self.stationType)
-        # if self.stationType[self.currentButton] == 0x0A:
+        # print("ST=", self.stationType)
         self.displaySensor.showSensorMatrix(
             self.currentButton, self.TOFData[self.currentButton]
         )

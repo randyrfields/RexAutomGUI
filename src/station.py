@@ -36,9 +36,9 @@ class Station:
             try:
                 result = await self.serial.Poll(x, cmd.value)
             except:
-                result = bytes([0xA7, 0x29, 0x01, 0x0A, 0x00]) + bytes([0x00] * 32)
+                result = bytes([0xA7, 0x29, 0x01, 0x05, 0x00]) + bytes([0x00] * 32)
 
-                self.mainWindow.stationType.insert(x, result[3])
+            self.mainWindow.stationType.insert(x, result[3])
 
             if result[3] == 0x05:
                 self.nodeStatus[x - 1] = list(result[0:8])
