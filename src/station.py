@@ -46,13 +46,12 @@ class Station:
                 self.nodeStatus[x - 1] = list(result[0:5])
                 # self.mainWindow.TOFData.append(list(result[5:37]))
                 rawData = result[5:37]
-                if len(rawData) % 2 != 0:
-                    print("rawData size ", len(rawData))
-                formatString = "<H"
-                self.mainWindow.TOFData[x - 1] = [
-                    struct.unpack(formatString, rawData[i : i + 2])[0]
-                    for i in range(0, 32, 2)
-                ]
+                if len(rawData) == 32:
+                    formatString = "<H"
+                    self.mainWindow.TOFData[x - 1] = [
+                        struct.unpack(formatString, rawData[i : i + 2])[0]
+                        for i in range(0, 32, 2)
+                    ]
                 # self.mainWindow.TOFData[x - 1] = list(result[5:37])
                 # print(self.mainWindow.TOFData[x - 1])
 
