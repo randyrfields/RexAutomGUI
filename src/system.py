@@ -113,5 +113,6 @@ class SystemController:
                 print("     ", end=" ")
                 for i in range(3, 11):
                     print(f"{data[i]:2d}", end=" ")
+                print("curButton, NdType=", self.gui.currentButton, nodeType)
                 print(" ")
                 time.sleep(1)
