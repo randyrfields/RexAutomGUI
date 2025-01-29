@@ -89,9 +89,9 @@ class SystemController:
                 self.updateIcons()
                 self.Update += 1
                 if self.gui.currentButton < 8:
-                    print("curButton = ", self.gui.currentButton)
-                    print(self.station.nodeStatus[0])
-                    print(len(self.station.nodeStatus[self.gui.currentButton]))
+                    # print("curButton = ", self.gui.currentButton)
+                    # print(self.station.nodeStatus[0])
+                    # print(len(self.station.nodeStatus[self.gui.currentButton]))
                     nodeType = self.station.nodeStatus[self.gui.currentButton][3]
                     if nodeType == 0x0A:
                         self.Update = 0
@@ -108,14 +108,14 @@ class SystemController:
                         self.gui.clearLiveStation()
 
                 data = await self.scanDiags()
-                print(chr(27) + "[2J")
-                print("Node:  0  1  2  3  4  5  6  7")
-                print("     ", end=" ")
-                try:
-                    for i in range(3, 11):
-                        print(f"{data[i]:2d}", end=" ")
-                except:
-                    print("Data error")
-                print("curButton, NdType=", self.gui.currentButton, nodeType)
-                print(" ")
+                # print(chr(27) + "[2J")
+                # print("Node:  0  1  2  3  4  5  6  7")
+                # print("     ", end=" ")
+                # try:
+                #     for i in range(3, 11):
+                #         print(f"{data[i]:2d}", end=" ")
+                # except:
+                #     print("Data error")
+                # print("curButton, NdType=", self.gui.currentButton, nodeType)
+                # print(" ")
                 time.sleep(1)
