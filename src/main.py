@@ -24,7 +24,7 @@ customtkinter.set_default_color_theme(
 class GUI(customtkinter.CTk):
 
     TOFData = []
-    currentButton = 0
+    activeNode = 0
     stationType = []
     sysController = 0
     radio_var = 0
@@ -268,7 +268,7 @@ class GUI(customtkinter.CTk):
         self.terminal.clearTerminal()
         # print("ST=", self.stationType)
         self.displaySensor.showSensorMatrix(
-            self.currentButton, self.TOFData[self.currentButton]
+            self.activeNode, self.TOFData[self.activeNode]
         )
 
     def showText(self, text):
@@ -282,7 +282,7 @@ class GUI(customtkinter.CTk):
         print("Button Click ", selection)
         if selection == "2":
             print(f"Button Click = {index}")
-            self.currentButton = index
+            self.activeNode = index
 
     def setSysController(self, sys):
         self.sysController = sys

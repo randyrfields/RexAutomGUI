@@ -55,7 +55,7 @@ class SystemController:
         detect = StationStatus.DETECTION
         block = StationStatus.BLOCKED
         blocked = False
-        self.gui.currentButton = 15
+        self.gui.activeNode = 15
         for node in range(0, 7):
             status = self.station.nodeStatus[node][2]
             if self.station.nodeStatus[node][4]:
@@ -67,7 +67,7 @@ class SystemController:
                 if blocked != False:
                     color = "red"
             elif status == detect.value:
-                self.gui.currentButton = node
+                self.gui.activeNode = node
                 color = "green"
             else:
                 color = "gray"
@@ -88,19 +88,19 @@ class SystemController:
                 # print("Main Thread")
                 self.updateIcons()
                 self.Update += 1
-                if self.gui.currentButton < 8:
-                    # print("curButton = ", self.gui.currentButton)
+                if self.gui.activeNode < 8:
+                    # print("curButton = ", self.gui.activeNode)
                     # print(self.station.nodeStatus[0])
-                    # print(len(self.station.nodeStatus[self.gui.currentButton]))
-                    nodeType = self.station.nodeStatus[self.gui.currentButton][3]
+                    # print(len(self.station.nodeStatus[self.gui.activeNode]))
+                    nodeType = self.station.nodeStatus[self.gui.activeNode][3]
                     if nodeType == 0x0A:
                         self.Update = 0
                         self.gui.showLiveStation()
                     else:
                         self.gui.clearLiveStation()
             else:
-                if self.gui.currentButton < 8:
-                    nodeType = self.station.nodeStatus[self.gui.currentButton][3]
+                if self.gui.activeNode < 8:
+                    nodeType = self.station.nodeStatus[self.gui.activeNode][3]
                     if nodeType == 0x0A:
                         self.Update = 0
                         self.gui.showLiveStation()
@@ -116,6 +116,6 @@ class SystemController:
                 #         print(f"{data[i]:2d}", end=" ")
                 # except:
                 #     print("Data error")
-                # print("curButton, NdType=", self.gui.currentButton, nodeType)
+                # print("curButton, NdType=", self.gui.activeNode, nodeType)
                 # print(" ")
                 time.sleep(1)
