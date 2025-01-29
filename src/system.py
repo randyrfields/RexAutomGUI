@@ -98,6 +98,8 @@ class SystemController:
                         self.gui.showLiveStation()
                     else:
                         self.gui.clearLiveStation()
+                else:
+                    self.gui.clearLiveStation()
             else:
                 if self.gui.activeNode < 8:
                     nodeType = self.station.nodeStatus[self.gui.activeNode][3]
