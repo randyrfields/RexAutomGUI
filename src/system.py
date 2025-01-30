@@ -37,7 +37,7 @@ class SystemController:
             await self.station.resetStations()
             self.stationReset = False
         elif self.stationCalibrate:
-            await self.station.stationCalibrate()
+            await self.station.calibrateStations()
             self.stationCalibrate = False
         else:
             await self.station.performScan()
