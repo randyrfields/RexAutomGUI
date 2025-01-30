@@ -9,6 +9,7 @@ class SysControlCommands(Enum):
     GETSTATUS = 1
     RESETSTATIONS = 15
     SCANRESULTS = 16
+    CALIBRATESTATIONS = 17
 
 
 class Station:
@@ -66,7 +67,7 @@ class Station:
         except:
             result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
 
-        if result[3] == 0xAA:
+        if result[3] == 0xAC:
             # print Success message
             self.mainWindow.terminal.addTextTerminal(
                 "System function reset success.\n\r"
@@ -74,6 +75,26 @@ class Station:
         else:
             # print Failed message
             self.mainWindow.terminal.addTextTerminal("System function reset fail.\n\r")
+
+    async def calibrateStations(self):
+        cmd = SysControlCommands.CALIBRATESTATIONS
+
+        try:
+            node = 0x0F
+            result = await self.serial.Poll(node, cmd.value)
+        except:
+            result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
+
+        if result[3] == 0xAA:
+            # print Success message
+            self.mainWindow.terminal.addTextTerminal(
+                "System function calibrate success.\n\r"
+            )
+        else:
+            # print Failed message
+            self.mainWindow.terminal.addTextTerminal(
+                "System function calibrate fail.\n\r"
+            )
 
     async def scanResults(self):
         cmd = SysControlCommands.SCANRESULTS
