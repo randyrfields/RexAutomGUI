@@ -39,7 +39,6 @@ class Station:
             except:
                 result = bytes([0xA7, 0x29, 0x01, 0x05, 0x00]) + bytes([0x00] * 32)
 
-            print("Result= ", result)
             self.mainWindow.stationType.insert(x, result[3])
 
             if result[2] == 0x00:
