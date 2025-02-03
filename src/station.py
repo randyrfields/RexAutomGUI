@@ -10,6 +10,7 @@ class SysControlCommands(Enum):
     RESETSTATIONS = 15
     SCANRESULTS = 16
     CALIBRATESTATIONS = 17
+    STATIONCONFIG = 18
 
 
 class Station:
@@ -57,12 +58,34 @@ class Station:
                             for i in range(0, 32, 2)
                         ]
 
-    async def resetStations(self):
-        cmd = SysControlCommands.RESETSTATIONS
+    async def sendStationConfig(self):
+        cmd = SysControlCommands.STATIONCONFIG
 
         try:
             node = 0x0F
-            result = await self.serial.Poll(node, cmd.value)
+            result = await self.serial.SendCmd(node, cmd.value)
+        except:
+            result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
+
+        if result[3] == 0xAC:
+            self.mainWindow.terminal.addTextTerminal(
+                "System function reset success.\n\r"
+            )
+        else:
+            # print Failed message
+            self.mainWindow.terminal.addTextTerminal("System function reset fail.\n\r")
+
+    async def resetStations(self):
+        cmd = SysControlCommands.RESETSTATIONS
+        quantity = []
+
+        try:
+            node = 0x0F
+            # result = await self.serial.Poll(node, cmd.value)
+            for i in range(7):
+                quantity.append(self.mainWindow.quantity_entry[i].get())
+
+            result = await self.serial.SendCmd(node, cmd.value, quantity)
         except:
             result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
 

@@ -82,11 +82,30 @@ class serialPolling:
     async def Poll(self, node, command):
         cmd = []
         response = []
-        # Request status
         address = 0xA0 | node
         cmd.append(command)
         cmd.insert(0, address)
         cmd.insert(1, 3)  # Length = 3
+        value = bytes(cmd)
+        requestStatusPkt = self.PktEncode(value)
+        # Send packet
+        await self.pollWriteController(requestStatusPkt)
+        time.sleep(0.05)
+        response = await self.pollReadController()
+        dcdpkt = self.PktDecode(response)
+
+        return dcdpkt
+
+    async def SendCmd(self, node, command, data):
+        # Address, Length, Cmd, <Data>
+        cmd = []
+        response = []
+        address = 0xA0 | node
+        cmd.append(command)
+        cmd.insert(0, address)
+        cmd.insert(1, 3)  # Length = 3
+        for i in range(7):
+            cmd.append(int(data[i]))
         value = bytes(cmd)
         requestStatusPkt = self.PktEncode(value)
         # Send packet

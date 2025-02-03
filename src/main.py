@@ -35,6 +35,7 @@ class GUI(customtkinter.CTk):
         self.station_frames = []
         self.station_buttons = []
         self.station_button = []
+        self.quantity_entry = []
 
         self.TOFData = [[0] * 16 for x in range(8)]
         self.stationType = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -233,6 +234,8 @@ class GUI(customtkinter.CTk):
         else:
             print("Calibrate Button click")
             self.sysController.stationCalibrate = True
+            for i in range(7):
+                print("Quantity=", self.quantity_entry[i].get())
 
     def showStation(self, number):
 
@@ -258,8 +261,14 @@ class GUI(customtkinter.CTk):
                     fg_color=bgc,
                 )
             )
-            self.station_button[x].pack()
+            self.station_button[x].pack(side="left")
             self.station_buttons.append(self.station_button[x])
+
+            self.quantity_entry.append(
+                customtkinter.CTkEntry(self.station_frames[x], width=50)
+            )
+            self.quantity_entry[x].insert(0, "1")
+            self.quantity_entry[x].pack(side="left", padx=10)
 
     # Not used, clears panel showing stations
     # def clearStations(self):
@@ -281,6 +290,7 @@ class GUI(customtkinter.CTk):
     def station_button_click(self, index):
         selection = self.radio_var.get()
         print("Button Click ", selection)
+        # if in diagnostics mode (selection = 2), set active node to button click
         if selection == "2":
             print(f"Button Click = {index}")
             self.activeNode = index
