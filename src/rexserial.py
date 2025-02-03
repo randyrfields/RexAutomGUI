@@ -103,7 +103,7 @@ class serialPolling:
         address = 0xA0 | node
         cmd.append(command)
         cmd.insert(0, address)
-        cmd.insert(1, 3)  # Length = 3
+        cmd.insert(1, 10)  # Length = 10
         for i in range(7):
             cmd.append(int(data[i]))
         value = bytes(cmd)
