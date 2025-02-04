@@ -275,7 +275,7 @@ class GUI(customtkinter.CTk):
     #     self.outer_frame.grid_forget()
 
     def showLiveStation(self):
-        self.terminal.clearTerminal()
+        # self.terminal.clearTerminal()
         # print("ST=", self.stationType)
         self.displaySensor.showSensorMatrix(
             self.activeNode, self.TOFData[self.activeNode]
