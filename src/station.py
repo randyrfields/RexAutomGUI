@@ -68,12 +68,10 @@ class Station:
             result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
 
         if result[3] == 0xAC:
-            self.mainWindow.terminal.addTextTerminal(
-                "System function reset success.\n\r"
-            )
+            self.mainWindow.terminal.addTextTerminal("System function reset success.\n")
         else:
             # print Failed message
-            self.mainWindow.terminal.addTextTerminal("System function reset fail.\n\r")
+            self.mainWindow.terminal.addTextTerminal("System function reset fail.\n")
 
     async def resetStations(self):
         cmd = SysControlCommands.RESETSTATIONS
@@ -91,12 +89,10 @@ class Station:
 
         if result[3] == 0xAC:
             # print Success message
-            self.mainWindow.terminal.addTextTerminal(
-                "System function reset success.\n\r"
-            )
+            self.mainWindow.terminal.addTextTerminal("System function reset success.\n")
         else:
             # print Failed message
-            self.mainWindow.terminal.addTextTerminal("System function reset fail.\n\r")
+            self.mainWindow.terminal.addTextTerminal("System function reset fail.\n")
 
     async def calibrateStations(self):
         cmd = SysControlCommands.CALIBRATESTATIONS
@@ -110,12 +106,12 @@ class Station:
         if result[3] == 0xAA:
             # print Success message
             self.mainWindow.terminal.addTextTerminal(
-                "System function calibrate success.\n\r"
+                "System function calibrate success.\n"
             )
         else:
             # print Failed message
             self.mainWindow.terminal.addTextTerminal(
-                "System function calibrate fail.\n\r"
+                "System function calibrate fail.\n"
             )
 
     async def scanResults(self):
