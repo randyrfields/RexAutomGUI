@@ -83,12 +83,14 @@ class SystemController:
     async def mainTask(self):
         data = [0 * 16]
         Count = 0
+        stat = 1
         self.gui.showStation(7)
         while True:
 
             await self.scanTask()
 
-            if self.gui.getRadioButtonStatus() == "1":
+            # if self.gui.getRadioButtonStatus() == "1":
+            if stat == 1:
                 # print("Main Thread")
                 self.updateIcons()
                 self.Update += 1

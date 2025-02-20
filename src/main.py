@@ -109,25 +109,18 @@ class GUI(customtkinter.CTk):
             row=3, column=1, columnspan=1, padx=(20, 20), pady=(20, 20), sticky="nsew"
         )
 
-        # self.main_button_1 = customtkinter.CTkButton(
-        #     master=self,
-        #     fg_color="transparent",
-        #     border_width=2,
-        #     text_color=("gray10", "#DCE4EE"),
+        # ------------------------------------------------------------------------------
+        # Far right side bar
+        # ------------------------------------------------------------------------------
+        # self.logo_frame = customtkinter.CTkFrame(
+        #     self, width=150, fg_color="transparent", corner_radius=0
         # )
-        # self.main_button_1.grid(
-        #     row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew"
+        # self.logo_frame.grid(row=3, column=3, sticky="nsew")
+        # self.logo_frame.grid_rowconfigure(1, weight=1)
+        # self.logo_label = customtkinter.CTkLabel(
+        #     self.logo_frame, image=ctk_image, text=""
         # )
-
-        self.logo_frame = customtkinter.CTkFrame(
-            self, width=150, fg_color="transparent", corner_radius=0
-        )
-        self.logo_frame.grid(row=3, column=3, sticky="nsew")
-        self.logo_frame.grid_rowconfigure(1, weight=1)
-        self.logo_label = customtkinter.CTkLabel(
-            self.logo_frame, image=ctk_image, text=""
-        )
-        self.logo_label.pack(pady=10)
+        # self.logo_label.pack(pady=10)
 
         # create textbox
         self.textbox = customtkinter.CTkTextbox(self, width=250)
@@ -149,70 +142,82 @@ class GUI(customtkinter.CTk):
         self.station_label.grid(row=0, column=2, padx=20, pady=(20, 10))
         self.station_label.configure(width=340)
 
+        # ------------------------------------------------------------------------------
+        # Far right side bar
+        # ------------------------------------------------------------------------------
         # create radiobutton frame
-        self.radiobutton_frame = customtkinter.CTkFrame(self)
-        self.radiobutton_frame.grid(
-            row=0, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew"
-        )
-        self.radio_var = tkinter.IntVar(value=0)
-        self.label_radio_group = customtkinter.CTkLabel(
-            master=self.radiobutton_frame, text="Scan Options"
-        )
-        self.label_radio_group.grid(
-            row=0, column=2, columnspan=1, padx=10, pady=10, sticky=""
-        )
+        # self.radiobutton_frame = customtkinter.CTkFrame(self)
+        # self.radiobutton_frame.grid(
+        #     row=0, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew"
+        # )
+        # self.radio_var = tkinter.IntVar(value=0)
+        # self.label_radio_group = customtkinter.CTkLabel(
+        #     master=self.radiobutton_frame, text="Scan Options"
+        # )
+        # self.label_radio_group.grid(
+        #     row=0, column=2, columnspan=1, padx=10, pady=10, sticky=""
+        # )
 
-        self.radio_var = customtkinter.StringVar(value="1")
-        self.radio_button_1 = customtkinter.CTkRadioButton(
-            master=self.radiobutton_frame,
-            variable=self.radio_var,
-            value="1",
-            text="Polling Mode",
-        )
-        self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="nw")
+        # self.radio_var = customtkinter.StringVar(value="1")
+        # self.radio_button_1 = customtkinter.CTkRadioButton(
+        #     master=self.radiobutton_frame,
+        #     variable=self.radio_var,
+        #     value="1",
+        #     text="Polling Mode",
+        # )
+        # self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="nw")
 
-        self.radio_button_2 = customtkinter.CTkRadioButton(
-            master=self.radiobutton_frame,
-            variable=self.radio_var,
-            value="2",
-            text="Diagnostics",
-        )
-        self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="nw")
+        # self.radio_button_2 = customtkinter.CTkRadioButton(
+        #     master=self.radiobutton_frame,
+        #     variable=self.radio_var,
+        #     value="2",
+        #     text="Diagnostics",
+        # )
+        # self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="nw")
+        # ------------------------------------------------------------------------------
 
+        # ------------------------------------------------------------------------------
+        # Moving progress bar
+        # ------------------------------------------------------------------------------
         # create slider and progressbar frame , fg_color="transparent"
-        self.slider_progressbar_frame = customtkinter.CTkFrame(self)
-        self.slider_progressbar_frame.grid(
-            row=3, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew"
-        )
-        self.slider_progressbar_frame.grid_columnconfigure(0, weight=1)
-        self.slider_progressbar_frame.grid_rowconfigure(4, weight=1)
-        self.progressbar_1 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
-        self.progressbar_1.grid(
-            row=1, column=0, padx=(10, 10), pady=(10, 10), sticky="ew"
-        )
+        # self.slider_progressbar_frame = customtkinter.CTkFrame(self)
+        # self.slider_progressbar_frame.grid(
+        #     row=3, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew"
+        # )
+        # self.slider_progressbar_frame.grid_columnconfigure(0, weight=1)
+        # self.slider_progressbar_frame.grid_rowconfigure(4, weight=1)
+        # self.progressbar_1 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
+        # self.progressbar_1.grid(
+        #     row=1, column=0, padx=(10, 10), pady=(10, 10), sticky="ew"
+        # )
+        # self.progressbar_1.configure(mode="indeterminate")
+        # self.progressbar_1.start()
+        # self.textbox.insert(
+        #     "0.0",
+        #     "Rexair Automation\n\n",
+        # )
+        # ------------------------------------------------------------------------------
 
+        # ------------------------------------------------------------------------------
+        # Far right side bar
+        # ------------------------------------------------------------------------------
         # create checkbox and switch frame
-        self.checkbox_slider_frame = customtkinter.CTkFrame(self)
-        self.checkbox_slider_frame.grid(
-            row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew"
-        )
-        self.checkbox_1 = customtkinter.CTkCheckBox(
-            master=self.checkbox_slider_frame, text="Live Display"
-        )
-        self.checkbox_1.grid(row=1, column=0, pady=(20, 0), padx=20, sticky="nw")
-        self.checkbox_2 = customtkinter.CTkCheckBox(
-            master=self.checkbox_slider_frame, text="Stop on Error"
-        )
-        self.checkbox_2.grid(row=2, column=0, pady=(20, 0), padx=20, sticky="nw")
-        self.checkbox_1.select()
+        # self.checkbox_slider_frame = customtkinter.CTkFrame(self)
+        # self.checkbox_slider_frame.grid(
+        #     row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew"
+        # )
+        # self.checkbox_1 = customtkinter.CTkCheckBox(
+        #     master=self.checkbox_slider_frame, text="Live Display"
+        # )
+        # self.checkbox_1.grid(row=1, column=0, pady=(20, 0), padx=20, sticky="nw")
+        # self.checkbox_2 = customtkinter.CTkCheckBox(
+        #     master=self.checkbox_slider_frame, text="Stop on Error"
+        # )
+        # self.checkbox_2.grid(row=2, column=0, pady=(20, 0), padx=20, sticky="nw")
+        # self.checkbox_1.select()
+        # ------------------------------------------------------------------------------
         # self.appearance_mode_optionemenu.set("Dark")
         # self.scaling_optionemenu.set("100%")
-        self.progressbar_1.configure(mode="indeterminate")
-        self.progressbar_1.start()
-        self.textbox.insert(
-            "0.0",
-            "Rexair Automation\n\n",
-        )
 
     def open_input_dialog_event(self):
         dialog = customtkinter.CTkInputDialog(
@@ -256,8 +261,9 @@ class GUI(customtkinter.CTk):
                     self.station_frames[x],
                     text=f"Station {x+1}",
                     command=partial(self.station_button_click, x),
+                    font=("Arial", 25),
                     width=200,
-                    height=90,
+                    height=40,
                     fg_color=bgc,
                 )
             )
@@ -269,10 +275,6 @@ class GUI(customtkinter.CTk):
             )
             self.quantity_entry[x].insert(0, "1")
             self.quantity_entry[x].pack(side="left", padx=10)
-
-    # Not used, clears panel showing stations
-    # def clearStations(self):
-    #     self.outer_frame.grid_forget()
 
     def showLiveStation(self):
         # self.terminal.clearTerminal()
@@ -288,7 +290,8 @@ class GUI(customtkinter.CTk):
         self.displaySensor.clear()
 
     def station_button_click(self, index):
-        selection = self.radio_var.get()
+        # selection = self.radio_var.get()
+        selection = 2
         print("Button Click ", selection)
         # if in diagnostics mode (selection = 2), set active node to button click
         if selection == "2":
