@@ -10,7 +10,7 @@ class SysControlCommands(Enum):
     RESETSTATIONS = 15
     SCANRESULTS = 16
     CALIBRATESTATIONS = 17
-    STATIONCONFIG = 18
+    STATIONORDER = 18
 
 
 class Station:
@@ -58,12 +58,14 @@ class Station:
                             for i in range(0, 32, 2)
                         ]
 
-    async def sendStationConfig(self):
+    async def sendStationOrder(self):
+
         cmd = SysControlCommands.STATIONCONFIG
 
         try:
             node = 0x0F
-            result = await self.serial.SendCmd(node, cmd.value)
+            data = self.mainWindow.stationOrderList.get()
+            result = await self.serial.SendCmd(node, cmd.value, data)
         except:
             result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
 

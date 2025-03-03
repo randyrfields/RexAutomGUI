@@ -16,6 +16,7 @@ class SystemController:
     Update = 0
     stationReset = False
     stationCalibrate = False
+    stationOrderSend = False
     diagScanResults = True
 
     def __init__(self, gui, station):
@@ -39,6 +40,9 @@ class SystemController:
         elif self.stationCalibrate:
             await self.station.calibrateStations()
             self.stationCalibrate = False
+        elif self.stationOrderSend:
+            await self.station.sendStationOrder()
+            self.stationOrderSend = False
         else:
             await self.station.performScan()
 
