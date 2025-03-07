@@ -32,6 +32,7 @@ class GUI(customtkinter.CTk):
     stationNames = []
     stationName = ""
     stationOrderList = ""
+    switch = None
 
     def __init__(self):
         super().__init__()
@@ -43,6 +44,7 @@ class GUI(customtkinter.CTk):
         self.address_entry = []
         self.address = []
         self.stationOrder = customtkinter.StringVar(value="1,2,3,4,5,6,7")
+        self.addressSelect = []
 
         self.TOFData = [[0] * 16 for x in range(8)]
         self.stationType = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -78,6 +80,7 @@ class GUI(customtkinter.CTk):
             font=customtkinter.CTkFont("Consolar", size=20, weight="bold"),
         )
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
+
         self.sidebar_button_1 = customtkinter.CTkButton(
             self.sidebar_frame,
             command=partial(self.sidebar_button_event, "Start"),
@@ -87,15 +90,26 @@ class GUI(customtkinter.CTk):
             fg_color="#4169E1",
         )
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
+
         self.sidebar_button_2 = customtkinter.CTkButton(
             self.sidebar_frame,
-            command=self.setStationOrderClick,
-            text="Set Order",
+            # command=self.setStationOrderClick,
+            text="Setup",
             height=80,
             font=("Consolar", 25, "bold"),
             fg_color="#4169E1",
         )
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
+
+        self.sidebar_button_3 = customtkinter.CTkButton(
+            self.sidebar_frame,
+            # command=self.setStationOrderClick,
+            text="Save",
+            height=80,
+            font=("Consolar", 25, "bold"),
+            fg_color="#4169E1",
+        )
+        self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
 
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self, placeholder_text="> ")
@@ -150,8 +164,12 @@ class GUI(customtkinter.CTk):
             for i in range(7):
                 print("Quantity=", self.quantity_entry[i].get())
 
-    def setStationOrderEvent(self):
-        print("Set Station Order")
+    def addressSelectChange(self, choice, index, id):
+        for i in range(7):
+            print(self.addressSelect[i].get())
+        # print("Station Index ", index, id, choice, i, self.station_buttons[1])
+        # self.station_buttons[1].configure(fg_color="red")
+        # print("Done")
 
     def showStation(self, number):
 
@@ -165,21 +183,20 @@ class GUI(customtkinter.CTk):
 
             self.station_frames.append(self.station_frame)
             self.station_frames[x].grid(row=x + 1, padx=5, pady=5)
-
-            # self.address_entry.append(
-            #     customtkinter.CTkEntry(
-            #         self.station_frames[x], width=50, justify="center"
-            #     )
-            # )
-            # self.address_entry[x].insert(0, x + 1)
-            # self.address_entry[x].pack(side="left", padx=10)
-
-            self.address.append(
-                customtkinter.CTkLabel(
-                    self.station_frames[x], text=x + 1, font=("Consolas", 25, "bold")
+            #
+            addressVar = customtkinter.StringVar(value=str(x + 1))
+            self.addressSelect.append(
+                customtkinter.CTkComboBox(
+                    self.station_frames[x],
+                    values=["-", "1", "2", "3", "4", "5", "6", "7"],
+                    variable=addressVar,
+                    width=70,
+                    command=lambda choice: self.addressSelectChange(
+                        choice, x, self.addressSelect[x]
+                    ),
                 )
             )
-            self.address[x].pack(side="left", padx=10)
+            self.addressSelect[x].pack(side="left", padx=20, pady=10)
 
             self.station_button.append(
                 customtkinter.CTkButton(
@@ -192,8 +209,8 @@ class GUI(customtkinter.CTk):
                     fg_color="#4169E1",
                 )
             )
-            self.station_button[x].pack(side="left")
             self.station_buttons.append(self.station_button[x])
+            self.station_button[x].pack(side="left")
 
             self.quantity_entry.append(
                 customtkinter.CTkEntry(
@@ -202,48 +219,6 @@ class GUI(customtkinter.CTk):
             )
             self.quantity_entry[x].insert(0, "1")
             self.quantity_entry[x].pack(side="left", padx=10)
-
-    def openReorderForm(self):
-        self.stationReorder = customtkinter.CTkToplevel()
-        self.stationReorder.lift
-        self.stationReorder.attributes("-topmost", True)
-        self.stationReorder.title(f"Set order")
-        self.stationReorder.geometry("400x200")
-        customtkinter.CTkLabel(
-            self.stationReorder, text="Enter New Station Order:"
-        ).pack(pady=5)
-        self.stationOrderList = customtkinter.CTkEntry(
-            self.stationReorder,
-            textvariable=self.stationOrder,
-            width=300,
-            height=40,
-            border_width=2,
-        )
-        # self.stationOrderList.insert(0, self.stationOrder)
-        self.stationOrderList.pack(pady=5)
-
-        orderValue = customtkinter.StringVar(value="1")
-        self.orderMenu = customtkinter.CTkOptionMenu(
-            master=self.stationReorder,
-            values=["1", "2", "3", "4", "5", "6", "7"],
-            command=self.orderPrint,
-            variable=orderValue,
-            width=50,
-        )
-        self.orderMenu.pack(pady=5)
-
-        orderSaveButton = customtkinter.CTkButton(
-            self.stationReorder,
-            text="Save",
-            height=40,
-            width=250,
-            font=("Consolas", 25, "bold"),
-            command=self.saveStationOrder,
-        )
-        orderSaveButton.pack(pady=5, side="bottom")
-
-    def orderPrint(self, choice):
-        print(choice)
 
     def openStationForm(self, number):
         self.stationSettings = customtkinter.CTkToplevel()
@@ -263,14 +238,6 @@ class GUI(customtkinter.CTk):
         )
         self.stationName.pack(pady=5)
 
-        # customtkinter.CTkLabel(self.stationSettings, text="Station Order: ").pack(
-        #     pady=5
-        # )
-        # self.stationOrder = customtkinter.CTkEntry(
-        #     self.stationSettings, width=250, height=40, border_width=2
-        # )
-        # self.stationOrder.pack(pady=5)
-
         saveButton = customtkinter.CTkButton(
             self.stationSettings,
             text="Save",
@@ -288,14 +255,6 @@ class GUI(customtkinter.CTk):
         self.station_button[x].configure(text=strValue)
         self.stationSettings.destroy()
 
-    def saveStationOrder(self):
-        orderStr = self.stationOrder.get()
-        stationOrderInts = [int(x) for x in orderStr.split(",")]
-        for x in range(7):
-            self.address[x].configure(text=stationOrderInts[x])
-        print(stationOrderInts[0])
-        self.stationReorder.destroy()
-
     def showLiveStation(self):
         self.displaySensor.showSensorMatrix(
             self.activeNode, self.TOFData[self.activeNode]
@@ -306,9 +265,6 @@ class GUI(customtkinter.CTk):
 
     def clearLiveStation(self):
         self.displaySensor.clear()
-
-    def setStationOrderClick(self):
-        self.openReorderForm()
 
     def station_button_click(self, index):
         # selection = self.radio_var.get()

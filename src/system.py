@@ -59,26 +59,30 @@ class SystemController:
     #  * [5:37] TOF data
 
     def updateIcons(self):
+        inactive = StationStatus.INACTIVE
         idle = StationStatus.IDLE
         detect = StationStatus.DETECTION
         block = StationStatus.BLOCKED
         blocked = False
         self.gui.activeNode = 15
         for node in range(0, 7):
-            status = self.station.nodeStatus[node][2]
-            if self.station.nodeStatus[node][4]:
-                blocked = True
-            else:
-                blocked = False
-            if status == idle.value:
-                color = "#4169E1"
-                if blocked != False:
-                    color = "red"
-            elif status == detect.value:
-                self.gui.activeNode = node
-                color = "green"
-            else:
+            if self.gui.addressSelect[node].get() == "-":
                 color = "gray"
+            else:
+                status = self.station.nodeStatus[node][2]
+                if self.station.nodeStatus[node][4]:
+                    blocked = True
+                else:
+                    blocked = False
+                if status == idle.value:
+                    color = "#4169E1"
+                    if blocked != False:
+                        color = "red"
+                elif status == detect.value:
+                    self.gui.activeNode = node
+                    color = "green"
+                else:
+                    color = "gray"
 
             self.gui.station_buttons[node].configure(fg_color=color)
 
