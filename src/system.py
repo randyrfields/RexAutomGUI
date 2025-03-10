@@ -128,6 +128,7 @@ class SystemController:
                     self.gui.clearLiveStation()
                     time.sleep(1)
                     if self.gui.getAutoRestartStatus() == "1":
+                        print("Auto Restart Sent")
                         self.stationReset = True
 
             else:
