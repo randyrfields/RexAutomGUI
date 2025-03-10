@@ -1,6 +1,7 @@
 import threading
 import time
 import asyncio
+import os
 from enum import Enum
 
 
@@ -31,6 +32,7 @@ class SystemController:
 
     def SaveSettings(self):
         # Write settings to disk
+        os.makedirs("/opt/cfg", exist_ok=True)
         with open("/opt/cfg/settings.cfg", "w+") as file:
             file.write("<cfg>")
             file.write("</cfg>")
