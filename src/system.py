@@ -115,13 +115,9 @@ class SystemController:
 
             # if self.gui.getRadioButtonStatus() == "1":
             if stat == 1:
-                # print("Main Thread")
                 self.updateIcons()
                 self.Update += 1
                 if self.gui.activeNode < 8:
-                    # print("curButton = ", self.gui.activeNode)
-                    # print(self.station.nodeStatus[0])
-                    # print(len(self.station.nodeStatus[self.gui.activeNode]))
                     nodeType = self.station.nodeStatus[self.gui.activeNode][3]
                     if nodeType == 0x0A:
                         self.Update = 0
@@ -130,6 +126,10 @@ class SystemController:
                         self.gui.clearLiveStation()
                 else:
                     self.gui.clearLiveStation()
+                    time.sleep(1)
+                    if self.gui.getAutoRestartStatus() == "1":
+                        self.stationReset = True
+
             else:
                 if self.gui.activeNode < 8:
                     nodeType = self.station.nodeStatus[self.gui.activeNode][3]

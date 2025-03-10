@@ -91,15 +91,15 @@ class GUI(customtkinter.CTk):
         )
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
 
-        self.sidebar_button_2 = customtkinter.CTkButton(
-            self.sidebar_frame,
-            command=partial(self.sidebar_button_event, "Setup"),
-            text="Setup",
-            height=80,
-            font=("Consolar", 25, "bold"),
-            fg_color="#4169E1",
-        )
-        self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
+        # self.sidebar_button_2 = customtkinter.CTkButton(
+        #     self.sidebar_frame,
+        #     command=partial(self.sidebar_button_event, "Setup"),
+        #     text="Setup",
+        #     height=80,
+        #     font=("Consolar", 25, "bold"),
+        #     fg_color="#4169E1",
+        # )
+        # self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
 
         self.sidebar_button_3 = customtkinter.CTkButton(
             self.sidebar_frame,
@@ -110,6 +110,11 @@ class GUI(customtkinter.CTk):
             fg_color="#4169E1",
         )
         self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
+
+        self.autoRestartcheckBox = customtkinter.CTkCheckBox(
+            self.sidebar_frame, text="Auto Restart"
+        )
+        self.autoRestartcheckBox.grid(row=4, column=0, padx=20, pady=10)
 
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self, placeholder_text="> ")
@@ -287,6 +292,9 @@ class GUI(customtkinter.CTk):
 
     def getRadioButtonStatus(self):
         return self.radio_var.get()
+
+    def getAutoRestartStatus(self):
+        return self.autoRestartcheckBox.get()
 
 
 if __name__ == "__main__":
