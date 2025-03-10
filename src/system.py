@@ -31,10 +31,9 @@ class SystemController:
 
     def SaveSettings(self):
         # Write settings to disk
-        file = open("/opt/cfg/settings.cfg", "w")
-        file.write("<cfg>")
-        file.write("</cfg>")
-        file.close()
+        with open("/opt/cfg/settings.cfg", "w+") as file:
+            file.write("<cfg>")
+            file.write("</cfg>")
 
     async def scanDiags(self):
         result = 0
