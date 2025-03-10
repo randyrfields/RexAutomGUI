@@ -14,7 +14,6 @@ class StationStatus(Enum):
 
 class SystemController:
 
-    Update = 0
     stationReset = False
     stationCalibrate = False
     stationOrderSend = False
@@ -105,29 +104,26 @@ class SystemController:
         return
 
     async def mainTask(self):
-        data = [0 * 16]
-        Count = 0
+
         stat = 1
         self.gui.showStation(7)
         while True:
 
             await self.scanTask()
 
-            # if self.gui.getRadioButtonStatus() == "1":
             if stat == 1:
                 self.updateIcons()
-                self.Update += 1
                 if self.gui.activeNode < 8:
                     nodeType = self.station.nodeStatus[self.gui.activeNode][3]
                     if nodeType == 0x0A:
-                        self.Update = 0
                         self.gui.showLiveStation()
                     else:
                         self.gui.clearLiveStation()
+
                 else:
                     self.gui.clearLiveStation()
                     time.sleep(1)
-                    if self.gui.getAutoRestartStatus() == "1":
+                    if self.gui.getAutoRestartStatus() == 1:
                         print("Auto Restart Sent")
                         self.stationReset = True
 
@@ -135,7 +131,6 @@ class SystemController:
                 if self.gui.activeNode < 8:
                     nodeType = self.station.nodeStatus[self.gui.activeNode][3]
                     if nodeType == 0x0A:
-                        self.Update = 0
                         self.gui.showLiveStation()
                     else:
                         self.gui.clearLiveStation()
