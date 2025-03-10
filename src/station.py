@@ -116,6 +116,26 @@ class Station:
                 "System function calibrate fail.\n"
             )
 
+    async def sendStationSetup(self):
+        cmd = SysControlCommands.CALIBRATESTATIONS
+
+        try:
+            node = 0x0F
+            result = await self.serial.Poll(node, cmd.value)
+        except:
+            result = bytes([0xFF, 0xFF, 0xFF, 0xFF])
+
+        if result[3] == 0xAA:
+            # print Success message
+            self.mainWindow.terminal.addTextTerminal(
+                "System function calibrate success.\n"
+            )
+        else:
+            # print Failed message
+            self.mainWindow.terminal.addTextTerminal(
+                "System function calibrate fail.\n"
+            )
+
     async def scanResults(self):
         cmd = SysControlCommands.SCANRESULTS
 

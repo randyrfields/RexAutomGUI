@@ -93,7 +93,7 @@ class GUI(customtkinter.CTk):
 
         self.sidebar_button_2 = customtkinter.CTkButton(
             self.sidebar_frame,
-            # command=self.setStationOrderClick,
+            command=partial(self.sidebar_button_event, "Setup"),
             text="Setup",
             height=80,
             font=("Consolar", 25, "bold"),
@@ -103,7 +103,7 @@ class GUI(customtkinter.CTk):
 
         self.sidebar_button_3 = customtkinter.CTkButton(
             self.sidebar_frame,
-            # command=self.setStationOrderClick,
+            command=partial(self.sidebar_button_event, "Save"),
             text="Save",
             height=80,
             font=("Consolar", 25, "bold"),
@@ -132,7 +132,7 @@ class GUI(customtkinter.CTk):
         # self.station_frame.grid_rowconfigure(4, weight=1)
         self.station_label = customtkinter.CTkLabel(
             self.station_frame,
-            text="Address     Station        Qty  ",
+            text="Sequence      Station        Qty  ",
             font=customtkinter.CTkFont("Consolas", size=20, weight="bold"),
         )
         self.station_label.grid(row=0, column=2, padx=20, pady=(20, 10))
@@ -158,11 +158,17 @@ class GUI(customtkinter.CTk):
         if value == "Start":
             print("Start Button click")
             self.sysController.stationReset = True
+        elif value == "Setup":
+            print("Setup Button click")
+            self.sysController.stationSendSetup = True
+        elif value == "Save":
+            print("Save Button click")
+            self.sysController.stationSaveAll = True
         else:
             print("Calibrate")
             self.sysController.stationCalibrate = True
-            for i in range(7):
-                print("Quantity=", self.quantity_entry[i].get())
+            # for i in range(7):
+            #     print("Quantity=", self.quantity_entry[i].get())
 
     def addressSelectChange(self, choice, index, id):
         for i in range(7):

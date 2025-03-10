@@ -18,6 +18,8 @@ class SystemController:
     stationCalibrate = False
     stationOrderSend = False
     diagScanResults = True
+    stationSendSetup = False
+    stationSaveAll = False
 
     def __init__(self, gui, station):
         self.station = station
@@ -26,6 +28,13 @@ class SystemController:
             target=asyncio.run, args=(self.mainTask(),), daemon=True
         )
         mainThread.start()
+
+    def SaveSettings(self):
+        # Write settings to disk
+        file = open("/opt/cfg/settings.cfg", "w")
+        file.write("<cfg>")
+        file.write("</cfg>")
+        file.close()
 
     async def scanDiags(self):
         result = 0
@@ -37,12 +46,18 @@ class SystemController:
         if self.stationReset:
             await self.station.resetStations()
             self.stationReset = False
-        elif self.stationCalibrate:
-            await self.station.calibrateStations()
-            self.stationCalibrate = False
+        # elif self.stationCalibrate:
+        #     await self.station.calibrateStations()
+        #     self.stationCalibrate = False
         elif self.stationOrderSend:
             await self.station.sendStationOrder()
             self.stationOrderSend = False
+        elif self.stationSendSetup:
+            await self.station.sendStationSetup()
+            self.stationSendSetup = False
+        elif self.stationSaveAll:
+            self.SaveSettings()
+            self.stationSaveAll = False
         else:
             await self.station.performScan()
 
