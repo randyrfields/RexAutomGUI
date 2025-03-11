@@ -128,11 +128,10 @@ class SystemController:
 
                 else:
                     self.gui.clearLiveStation()
-                    time.sleep(1)
                     if self.gui.getAutoRestartStatus() == 1:
                         print("Auto Restart Sent")
                         self.stationReset = True
-                        time.sleep(2)
+                        time.sleep(1)
 
             else:
                 if self.gui.activeNode < 8:
