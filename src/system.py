@@ -20,6 +20,7 @@ class SystemController:
     diagScanResults = True
     stationSendSetup = False
     stationSaveAll = False
+    newScanDataAvail = False
 
     def __init__(self, gui, station):
         self.station = station
@@ -60,6 +61,7 @@ class SystemController:
             self.stationSaveAll = False
         else:
             await self.station.performScan()
+            self.newScanDataAvail = True
 
     #  * [0] 0xAn, n = node id
     #  * [1] 0xsz, sz = packet size before encoding
@@ -112,7 +114,11 @@ class SystemController:
             await self.scanTask()
 
             if stat == 1:
-                self.updateIcons()
+                if self.newScanDataAvail:
+                    self.updateIcons()
+                    self.newScanDataAvail = False
+                else:
+                    continue
                 if self.gui.activeNode < 8:
                     nodeType = self.station.nodeStatus[self.gui.activeNode][3]
                     if nodeType == 0x0A:
