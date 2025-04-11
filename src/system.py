@@ -1,6 +1,7 @@
 import threading
 import time
 import asyncio
+import xml.etree.cElementTree as ET
 import os
 from enum import Enum
 
@@ -32,10 +33,15 @@ class SystemController:
 
     def SaveSettings(self):
         # Write settings to disk
+        cfg = ET.Element("config")
+        ET.SubElement(cfg, "node_order").text = "1,2,3,4,5,6,7"
+        ET.SubElement(cfg, "auto_restart").text = "0"
+        ET.SubElement(cfg, "quantity").text = "1,1,1,1,1,1,1"
+        tree = ET.ElementTree(cfg)
+
         os.makedirs("/opt/cfg", exist_ok=True)
-        with open("/opt/cfg/settings.cfg", "w+") as file:
-            file.write("<cfg>")
-            file.write("</cfg>")
+        with open("/opt/cfg/settings.cfg", "wb") as file:
+            tree.write(file, encoding="utf-8", xml_declaration=True)
 
     async def scanDiags(self):
         result = 0

@@ -116,6 +116,26 @@ class GUI(customtkinter.CTk):
         )
         self.autoRestartcheckBox.grid(row=4, column=0, padx=20, pady=10)
 
+        self.sidebar_button_4 = customtkinter.CTkButton(
+            self.sidebar_frame,
+            command=partial(self.sidebar_button_event, "Reset"),
+            text="Reset",
+            height=40,
+            font=("Consolar", 25, "bold"),
+            fg_color="#4169E1",
+        )
+        self.sidebar_button_4.grid(row=5, column=0, padx=20, pady=10)
+
+        self.sidebar_button_5 = customtkinter.CTkButton(
+            self.sidebar_frame,
+            command=partial(self.sidebar_button_event, "Restore"),
+            text="Restore",
+            height=40,
+            font=("Consolar", 25, "bold"),
+            fg_color="#4169E1",
+        )
+        self.sidebar_button_5.grid(row=6, column=0, padx=20, pady=10)
+
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self, placeholder_text="> ")
         self.entry.grid(
