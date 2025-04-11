@@ -58,6 +58,7 @@ class GUI(customtkinter.CTk):
 
         self.title("Rexair Automation Controller")
         self.geometry(f"{1100}x{580}")
+        self.attributes("-fullscreen", True)
 
         self.assets_dir = Path(__file__).parent.parent / "assets"
         self.logo_dir = os.path.join(self.assets_dir, "Rexair-LLC.png")
