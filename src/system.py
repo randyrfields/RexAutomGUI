@@ -118,6 +118,7 @@ class SystemController:
         while True:
 
             await self.scanTask()
+            print("Scan")
 
             if stat == 1:
                 if self.newScanDataAvail:
