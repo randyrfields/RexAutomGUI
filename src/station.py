@@ -21,7 +21,7 @@ class Station:
 
         self.mainWindow = mainWindow
         self.totalNumberStations = 0
-        self.serial = serialPolling("/dev/ttyS1", 115200, 1)
+        self.serial = serialPolling("/dev/ttyS2", 115200, 1)
 
         # Create list for status storage
         for i in range(0, 8):
@@ -37,6 +37,7 @@ class Station:
 
             try:
                 result = await self.serial.Poll(x, cmd.value)
+                print("Scan")
             except:
                 result = bytes([0xA7, 0x29, 0x01, 0x05, 0x00]) + bytes([0x00] * 32)
 
