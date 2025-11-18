@@ -136,6 +136,16 @@ class GUI(customtkinter.CTk):
             fg_color="#4169E1",
         )
         self.sidebar_button_5.grid(row=6, column=0, padx=20, pady=10)
+        
+        self.sidebar_button_6 = customtkinter.CTkButton(
+            self.sidebar_frame,
+            command=partial(self.sidebar_button_event, "Update"),
+            text="Update",
+            height=40,
+            font=("Consolar", 25, "bold"),
+            fg_color="#4169E1",
+        )
+        self.sidebar_button_5.grid(row=6, column=0, padx=20, pady=10)
 
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self, placeholder_text="> ")
