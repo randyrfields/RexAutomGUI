@@ -5,6 +5,7 @@ import os
 import platform
 import threading
 import time
+import subprocess
 from pathlib import Path
 from PIL import Image
 from functools import partial
@@ -33,6 +34,7 @@ class GUI(customtkinter.CTk):
     stationName = ""
     stationOrderList = ""
     switch = None
+    script_path = "/opt/RexAutomBoot/src/main.py"
 
     def __init__(self):
         super().__init__()
@@ -194,12 +196,14 @@ class GUI(customtkinter.CTk):
         if value == "Start":
             print("Start Button click")
             self.sysController.stationReset = True
-        elif value == "Setup":
-            print("Setup Button click")
-            self.sysController.stationSendSetup = True
+        # elif value == "Setup":
+        #     print("Setup Button click")
+        #     self.sysController.stationSendSetup = True
         elif value == "Save":
             print("Save Button click")
             self.sysController.stationSaveAll = True
+        elif value == "Update":
+            subprocess.call(["python3", self.script_path, "arg1", "arg2"]) 
         else:
             print("Calibrate")
             self.sysController.stationCalibrate = True
