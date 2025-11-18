@@ -203,7 +203,8 @@ class GUI(customtkinter.CTk):
             print("Save Button click")
             self.sysController.stationSaveAll = True
         elif value == "Update":
-            subprocess.call(["python3", self.script_path, "arg1", "arg2"]) 
+            subprocess.call(["python3", self.script_path, "arg1", "arg2"])
+            sys.exit(0)
         else:
             print("Calibrate")
             self.sysController.stationCalibrate = True
