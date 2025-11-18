@@ -145,7 +145,7 @@ class GUI(customtkinter.CTk):
             font=("Consolar", 25, "bold"),
             fg_color="#4169E1",
         )
-        self.sidebar_button_6.grid(row=6, column=0, padx=20, pady=10)
+        self.sidebar_button_6.grid(row=7, column=0, padx=20, pady=10)
 
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self, placeholder_text="> ")
