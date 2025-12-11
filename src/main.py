@@ -37,6 +37,7 @@ class GUI(customtkinter.CTk):
     switch = None
     script_path = "/opt/RexAutomBoot/src/main.py"
     command = [sys.executable, script_path]
+    stopApp = False
     
     def __init__(self):
         super().__init__()
@@ -205,6 +206,7 @@ class GUI(customtkinter.CTk):
             print("Save Button click")
             self.sysController.stationSaveAll = True
         elif value == "Update":
+            self.stopApp = True
             try:
                 subprocess.Popen(self.command)
             except FileNotFoundError:

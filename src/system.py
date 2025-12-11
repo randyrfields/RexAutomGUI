@@ -119,6 +119,8 @@ class SystemController:
 
             await self.scanTask()
             print("Scan")
+            if self.gui.stopApp:
+                break
 
             if stat == 1:
                 if self.newScanDataAvail:
