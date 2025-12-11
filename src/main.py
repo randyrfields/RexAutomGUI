@@ -343,8 +343,8 @@ class GUI(customtkinter.CTk):
             print(f"Button Click = {index}")
             self.activeNode = index
 
-    def setSysController(self, sys):
-        self.sysController = sys
+    def setSysController(self, sysval):
+        self.sysController = sysval
 
     def getRadioButtonStatus(self):
         return self.radio_var.get()
@@ -356,6 +356,6 @@ class GUI(customtkinter.CTk):
 if __name__ == "__main__":
     gui = GUI()
     station = Station(gui)
-    sys = SystemController(gui, station)
-    gui.setSysController(sys)
+    sysv = SystemController(gui, station)
+    gui.setSysController(sysv)
     gui.mainloop()
