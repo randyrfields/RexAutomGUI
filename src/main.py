@@ -3,6 +3,7 @@ import tkinter.messagebox
 import customtkinter
 import os
 import platform
+import sys
 import threading
 import time
 import subprocess
@@ -35,7 +36,8 @@ class GUI(customtkinter.CTk):
     stationOrderList = ""
     switch = None
     script_path = "/opt/RexAutomBoot/src/main.py"
-
+    command = [sys.executable, script_path]
+    
     def __init__(self):
         super().__init__()
 
@@ -203,7 +205,13 @@ class GUI(customtkinter.CTk):
             print("Save Button click")
             self.sysController.stationSaveAll = True
         elif value == "Update":
-            subprocess.call(["python3", self.script_path, "arg1", "arg2"])
+            try:
+                subprocess.Popen(self.command)
+            except FileNotFoundError:
+                print(f"Error: Could not find {self.command[1]}. Make sure the file exists.")
+                sys.exit(1) # Exit with an error code if the file isn't found
+
+            # subprocess.call(["python3", self.script_path, "arg1", "arg2"])
             sys.exit(0)
         else:
             print("Calibrate")
