@@ -266,6 +266,16 @@ class GUI(customtkinter.CTk):
             )
             self.quantity_entry[x].insert(0, "1")
             self.quantity_entry[x].pack(side="left", padx=10)
+        
+        #Add update button
+        self.sidebar_button_4 = customtkinter.CTkButton(
+            self.sidebar_frame,
+            command=partial(self.sidebar_button_event, "Reset"),
+            text="Reset",
+            height=40,
+            font=("Consolar", 25, "bold"),
+            fg_color="#4169E1",
+        )
 
     def openStationForm(self, number):
         self.stationSettings = customtkinter.CTkToplevel()
@@ -335,7 +345,7 @@ class GUI(customtkinter.CTk):
 
 if __name__ == "__main__":
     gui = GUI()
-    station = Station(gui)
-    sys = SystemController(gui, station)
-    gui.setSysController(sys)
-    gui.mainloop()
+    # station = Station(gui)
+    # sys = SystemController(gui, station)
+    # gui.setSysController(sys)
+    # gui.mainloop()
