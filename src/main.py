@@ -345,7 +345,7 @@ class GUI(customtkinter.CTk):
 
 if __name__ == "__main__":
     gui = GUI()
-    # station = Station(gui)
-    # sys = SystemController(gui, station)
-    # gui.setSysController(sys)
-    # gui.mainloop()
+    station = Station(gui)
+    sys = SystemController(gui, station)
+    gui.setSysController(sys)
+    gui.mainloop()
