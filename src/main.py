@@ -50,6 +50,7 @@ class GUI(customtkinter.CTk):
         self.address = []
         self.stationOrder = customtkinter.StringVar(value="1,2,3,4,5,6,7")
         self.addressSelect = []
+        self.update_station_button = []
 
         self.TOFData = [[0] * 16 for x in range(8)]
         self.stationType = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -278,13 +279,15 @@ class GUI(customtkinter.CTk):
             self.quantity_entry[x].pack(side="left", padx=10)
         
         #Add update button
-        self.update_station_button = customtkinter.CTkButton(
-            self.outer_frame,
-            command=partial(self.stationUpdate_button_event, "Update"),
-            text="Update",
-            height=40,
-            font=("Consolar", 25, "bold"),
-            fg_color="#4169E1",
+        self.update_station_button.append(
+            customtkinter.CTkButton(
+                self.outer_frame,
+                command=partial(self.stationUpdate_button_event, "Update"),
+                text="Update",
+                height=40,
+                font=("Consolar", 25, "bold"),
+                fg_color="#4169E1",
+            )
         )
 
     def openStationForm(self, number):
