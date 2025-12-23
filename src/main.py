@@ -326,8 +326,18 @@ class GUI(customtkinter.CTk):
             # command=lambda: self.saveStationInfo(number),
         )
 
-        CalEmptyButton.pack(pady=5, side= "bottom")
+        CalFullButton = customtkinter.CTkButton(
+            self.stationSettings,
+            text="Cal Full",
+            height=40,
+            width=250,
+            font=("Consolas", 25, "bold"),
+            # command=lambda: self.saveStationInfo(number),
+        )
+
         saveButton.pack(pady=5, side="bottom")
+        CalFullButton.pack(pady=5, side= "bottom")
+        CalEmptyButton.pack(pady=5, side= "bottom")
 
     def saveStationInfo(self, number):
         x = number
