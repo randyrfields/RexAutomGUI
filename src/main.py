@@ -336,8 +336,8 @@ class GUI(customtkinter.CTk):
         )
 
         saveButton.pack(pady=5, side="bottom")
-        CalFullButton.pack(pady=5, side= "bottom")
-        CalEmptyButton.pack(pady=5, side= "bottom")
+        CalFullButton.pack(pady=5, side="bottom")
+        CalEmptyButton.pack(pady=5, side="bottom")
 
     def saveStationInfo(self, number):
         x = number
