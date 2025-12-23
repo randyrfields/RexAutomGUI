@@ -280,16 +280,15 @@ class GUI(customtkinter.CTk):
         
         #Add update button
         print("Made it update button")
-        self.update_station_button.append(
-            customtkinter.CTkButton(
-                self.outer_frame,
-                command=partial(self.stationUpdate_button_event, "Update"),
-                text="Update",
-                height=40,
-                font=("Consolar", 25, "bold"),
-                fg_color="#4169E1",
-            )
+        SensorUpdateButton = customtkinter.CTkButton(
+            self.outer_frame,
+            command=partial(self.stationUpdate_button_event, "Update"),
+            text="Update",
+            height=40,
+            font=("Consolar", 25, "bold"),
+            fg_color="#4169E1",
         )
+        SensorUpdateButton.grid(10, 1, 20, 20, "nsew")
 
     def openStationForm(self, number):
         self.stationSettings = customtkinter.CTkToplevel()
