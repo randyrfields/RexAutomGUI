@@ -278,7 +278,7 @@ class GUI(customtkinter.CTk):
             self.quantity_entry[x].pack(side="left", padx=10)
         
         #Add update button
-        self.sidebar_button_4 = customtkinter.CTkButton(
+        self.update_station_button = customtkinter.CTkButton(
             self.outer_frame,
             command=partial(self.stationUpdate_button_event, "Update"),
             text="Update",
