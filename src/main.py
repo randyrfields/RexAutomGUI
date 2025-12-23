@@ -279,9 +279,9 @@ class GUI(customtkinter.CTk):
         
         #Add update button
         self.sidebar_button_4 = customtkinter.CTkButton(
-            self.sidebar_frame,
-            command=partial(self.sidebar_button_event, "Reset"),
-            text="Reset",
+            self.outer_frame,
+            command=partial(self.stationUpdate_button_event, "Update"),
+            text="Update",
             height=40,
             font=("Consolar", 25, "bold"),
             fg_color="#4169E1",
@@ -342,6 +342,10 @@ class GUI(customtkinter.CTk):
         if selection == "2":
             print(f"Button Click = {index}")
             self.activeNode = index
+
+    def stationUpdate_button_event(self):
+        # self.stationUpdate()
+        pass
 
     def setSysController(self, sysval):
         self.sysController = sysval
