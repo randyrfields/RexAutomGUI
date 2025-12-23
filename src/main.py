@@ -288,7 +288,7 @@ class GUI(customtkinter.CTk):
             font=("Consolar", 25, "bold"),
             fg_color="#4169E1",
         )
-        SensorUpdateButton.grid(10, 1, 20, 20, "nsew")
+        SensorUpdateButton.grid(row=10, column=0, padx=20, pady=20, sticky="nsew")
 
     def openStationForm(self, number):
         self.stationSettings = customtkinter.CTkToplevel()
