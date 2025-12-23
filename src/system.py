@@ -118,7 +118,7 @@ class SystemController:
         while True:
 
             await self.scanTask()
-            print("Scan")
+            # print("Scan")
             if self.gui.stopApp:
                 break
             if stat == 1:

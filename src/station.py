@@ -37,7 +37,7 @@ class Station:
 
             try:
                 result = await self.serial.Poll(x, cmd.value)
-                print("Scan")
+                # print("Scan")
             except:
                 result = bytes([0xA7, 0x29, 0x01, 0x05, 0x00]) + bytes([0x00] * 32)
 
